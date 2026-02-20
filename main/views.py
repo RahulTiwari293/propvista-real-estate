@@ -236,7 +236,7 @@ def post_listing(request):
                 bathrooms=_safe_float(p.get('bathrooms')),      # nullable — None for land
                 sqft=_safe_int(p.get('sqft')),                  # nullable
                 description=p.get('description', '').strip(),
-                is_published=False,  # admin approves before going live
+                is_published=True,   # goes live immediately
             )
             if f.get('photo_main'):
                 listing.photo_main = f['photo_main']
