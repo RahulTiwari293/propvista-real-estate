@@ -57,17 +57,26 @@ TEMPLATES = [{
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # ── Database ──────────────────────────────────────────────────────────────────
+# Always use PostgreSQL via DATABASE_URL. SQLite only for local DEBUG development.
 DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(
             DATABASE_URL,
-            conn_max_age=600,        # reuse DB connections for 10 min
-            conn_health_checks=True, # discard stale connections automatically
+            conn_max_age=600,
+            conn_health_checks=True,
         )
     }
-else:
+elif DEBUG:
+    # Local development only
     DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}}
+else:
+    # Production without DATABASE_URL — fail fast with a clear message
+    from django.core.exceptions import ImproperlyConfigured
+    raise ImproperlyConfigured(
+        "DATABASE_URL environment variable is not set. "
+        "Go to Vercel → Project → Settings → Environment Variables and add DATABASE_URL."
+    )
 
 # ── Caching (in-memory per worker) ────────────────────────────────────────────
 CACHES = {
