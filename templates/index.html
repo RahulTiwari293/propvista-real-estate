@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}10*10 | India's Real Estate Marketplace{% endblock %}
+
 {% block content %}
 
-<!-- Hero -->
-<section class="hero" id="hero">
-    <!-- Floating blobs -->
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section class="lp-hero">
+    <div class="lp-hero-bg" style="background-image:url('{% static 'img/hero_bg.png' %}')"></div>
+    <div class="lp-hero-overlay"></div>
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-    <div class="hero-overlay"></div>
 
-    <div class="container hero-body text-center text-white">
-        <p class="hero-sub mb-2">
+    <div class="container lp-hero-body text-center text-white">
+        <p class="lp-hero-sub">
             <span class="word-drop" style="animation-delay:.05s">🏠</span>
             <span class="word-drop" style="animation-delay:.18s">India's</span>
             <span class="word-drop" style="animation-delay:.3s">#1</span>
@@ -20,103 +22,208 @@
             <span class="word-drop" style="animation-delay:.54s">Estate</span>
             <span class="word-drop" style="animation-delay:.66s">Marketplace</span>
         </p>
-        <h1 class="hero-title">
+        <h1 class="lp-hero-title">
             <span class="word-drop" style="animation-delay:.85s">Find</span>
             <span class="word-drop" style="animation-delay:1.0s">Your</span>
             <span class="word-drop text-warning" style="animation-delay:1.15s">Dream</span>
             <span class="word-drop" style="animation-delay:1.3s">Property</span>
         </h1>
-        <p class="hero-desc mb-4 anim-fade-up" style="animation-delay:1.6s">
-            Browse thousands of listings across India — homes, flats, villas, and more.
+        <p class="lp-hero-desc anim-fade-up" style="animation-delay:1.6s">
+            Browse thousands of verified listings across India — apartments, villas, plots &amp; commercial spaces.
         </p>
 
-        <!-- Hero Search Bar -->
-        <form action="{% url 'search' %}" method="GET" class="hero-search mx-auto anim-fade-up"
-            style="animation-delay:1.8s">
-            <div class="row g-2">
-                <div class="col-md-4">
-                    <input type="text" name="keywords" class="form-control" placeholder="Keywords..." />
+        <form action="{% url 'search' %}" method="GET" class="lp-hero-form anim-fade-up" style="animation-delay:1.8s">
+            <div class="lp-search-bar">
+                <div class="lp-search-field">
+                    <i class="fas fa-search lp-search-icon"></i>
+                    <input type="text" name="keywords" placeholder="Search by keyword, project name..." />
                 </div>
-                <div class="col-md-3">
-                    <input type="text" name="city" class="form-control" placeholder="City" />
+                <div class="lp-search-field">
+                    <i class="fas fa-map-marker-alt lp-search-icon"></i>
+                    <input type="text" name="city" placeholder="City" />
                 </div>
-                <div class="col-md-3">
-                    <select name="state" class="form-control">
-                        <option value="">Any State</option>
-                        <option>Maharashtra</option>
-                        <option>Karnataka</option>
-                        <option>Delhi</option>
-                        <option>Tamil Nadu</option>
-                        <option>Gujarat</option>
-                        <option>Telangana</option>
-                        <option>Kerala</option>
-                        <option>Rajasthan</option>
-                        <option>West Bengal</option>
+                <div class="lp-search-field">
+                    <i class="fas fa-home lp-search-icon"></i>
+                    <select name="listing_type">
+                        <option value="">Buy or Rent?</option>
+                        <option value="sale">For Sale</option>
+                        <option value="rent">For Rent</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <button class="btn btn-warning w-100 fw-600 hero-search-btn">
-                        <i class="fas fa-search me-1"></i>Go
-                    </button>
-                </div>
+                <button type="submit" class="lp-search-btn">Search</button>
             </div>
         </form>
 
-        <!-- Hero Stats -->
-        <div class="hero-stats mt-4 d-flex justify-content-center gap-4 flex-wrap anim-fade-up"
-            style="animation-delay:2.0s">
-            <div>
-                <span class="fw-700 fs-3 text-warning stat-num" data-target="{{ for_sale_count }}">0</span>
-                &nbsp;For Sale
-            </div>
-            <div class="stat-div"></div>
-            <div>
-                <span class="fw-700 fs-3 text-warning stat-num" data-target="{{ for_rent_count }}">0</span>
-                &nbsp;For Rent
-            </div>
-            <div class="stat-div"></div>
-            <div>
-                <span class="stat-num fw-700 fs-3" data-target="95">0</span>% Satisfied
-            </div>
-        </div>
-
-        <!-- Quick action pills -->
-        <div class="hero-pills mt-4 anim-fade-up" style="animation-delay:2.2s">
-
-            <a href="/listings/?type=sale" class="hero-pill sale">
-                <i class="fas fa-home me-1"></i>For Sale
-            </a>
-            <a href="/listings/?type=rent" class="hero-pill rent">
-                <i class="fas fa-key me-1"></i>For Rent
-            </a>
-            <a href="/search/?property_type=villa" class="hero-pill">
-                <i class="fas fa-landmark me-1"></i>Villas
-            </a>
-            <a href="/search/?property_type=land" class="hero-pill">
-                <i class="fas fa-mountain me-1"></i>Land
-            </a>
+        <div class="lp-quick-links anim-fade-up" style="animation-delay:2.0s">
+            <a href="/search/?property_type=apartment" class="lp-ql">🏢 Apartments</a>
+            <a href="/search/?property_type=villa" class="lp-ql">🏡 Villas</a>
+            <a href="/search/?property_type=land" class="lp-ql">🌿 Plots</a>
+            <a href="/search/?property_type=commercial" class="lp-ql">🏬 Commercial</a>
         </div>
     </div>
 
-    <!-- Scroll indicator -->
-    <div class="scroll-hint anim-fade-up" style="animation-delay:2.5s">
-
-        <div class="scroll-dot"></div>
+    <div class="lp-scroll-hint anim-fade-up" style="animation-delay:2.3s">
+        <div class="lp-scroll-dot"></div>
     </div>
 </section>
 
-<!-- Featured Listings -->
-<section class="py-5">
+<!-- ═══════════════════════════════════════
+     STATS STRIP
+═══════════════════════════════════════ -->
+<section class="lp-stats-strip">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-700 mb-0 reveal">Featured <span class="text-warning">Listings</span></h2>
-            <a href="{% url 'listings' %}" class="btn btn-outline-warning btn-sm reveal">View All →</a>
+        <div class="lp-stats-grid">
+            <div class="lp-stat reveal">
+                <div class="lp-stat-num stat-num" data-target="{{ for_sale_count }}">0</div>
+                <div class="lp-stat-label">Properties For Sale</div>
+            </div>
+            <div class="lp-stat-divider"></div>
+            <div class="lp-stat reveal" style="transition-delay:.1s">
+                <div class="lp-stat-num stat-num" data-target="{{ for_rent_count }}">0</div>
+                <div class="lp-stat-label">Properties For Rent</div>
+            </div>
+            <div class="lp-stat-divider"></div>
+            <div class="lp-stat reveal" style="transition-delay:.2s">
+                <div class="lp-stat-num stat-num" data-target="40">0</div>
+                <div class="lp-stat-label">Cities Covered</div>
+            </div>
+            <div class="lp-stat-divider"></div>
+            <div class="lp-stat reveal" style="transition-delay:.3s">
+                <div class="lp-stat-num"><span class="stat-num" data-target="95">0</span>%</div>
+                <div class="lp-stat-label">Satisfied Customers</div>
+            </div>
         </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     STORY 1: DREAM HOME
+═══════════════════════════════════════ -->
+<section class="lp-story py-section">
+    <div class="container">
+        <div class="lp-story-grid">
+            <div class="lp-story-text reveal-left">
+                <span class="lp-section-tag">Buy a Home</span>
+                <h2 class="lp-section-title">Your Perfect Home<br>Is Waiting For You</h2>
+                <p class="lp-section-body">
+                    Whether you're a first-time buyer or upgrading to a bigger space, 10*10 connects you with thousands
+                    of verified residential listings — apartments, independent houses, villas, and more — across every
+                    major Indian city.
+                </p>
+                <ul class="lp-check-list">
+                    <li><i class="fas fa-check-circle"></i> Verified listings with photos &amp; floor plans</li>
+                    <li><i class="fas fa-check-circle"></i> Filter by price, bedrooms, location &amp; more</li>
+                    <li><i class="fas fa-check-circle"></i> Contact sellers directly — no brokerage</li>
+                    <li><i class="fas fa-check-circle"></i> EMI calculator &amp; neighborhood insights</li>
+                </ul>
+                <div class="lp-story-actions">
+                    <a href="/search/?listing_type=sale" class="lp-btn-primary">Browse Homes For Sale</a>
+                    <a href="/search/?property_type=apartment" class="lp-btn-ghost">View Apartments</a>
+                </div>
+            </div>
+            <div class="lp-story-image reveal-right">
+                <div class="lp-img-frame">
+                    <img src="{% static 'img/home_interior.png' %}" alt="Dream Home Interior" />
+                    <div class="lp-img-badge">
+                        <i class="fas fa-shield-alt"></i> 100% Verified
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     STORY 2: LAND & COMMERCIAL
+═══════════════════════════════════════ -->
+<section class="lp-story lp-story-alt py-section">
+    <div class="container">
+        <div class="lp-story-grid reverse">
+            <div class="lp-story-image reveal-left">
+                <div class="lp-img-frame">
+                    <img src="{% static 'img/land_aerial.png' %}" alt="Land and Commercial Property" />
+                    <div class="lp-img-badge lp-img-badge-tl">
+                        <i class="fas fa-ruler-combined"></i> ₹/sqft from ₹800
+                    </div>
+                </div>
+            </div>
+            <div class="lp-story-text reveal-right">
+                <span class="lp-section-tag">Invest in Land</span>
+                <h2 class="lp-section-title">Secure Land &amp;<br>Commercial Spaces</h2>
+                <p class="lp-section-body">
+                    From agricultural plots to prime industrial warehouses, 10*10 lists land and commercial properties
+                    across India's fastest-growing corridors. Perfect for businesses, warehouses, logistics hubs, or
+                    long-term investment.
+                </p>
+                <ul class="lp-check-list">
+                    <li><i class="fas fa-check-circle"></i> Agricultural, NA &amp; industrial plots</li>
+                    <li><i class="fas fa-check-circle"></i> Warehouse &amp; logistics facilities</li>
+                    <li><i class="fas fa-check-circle"></i> Verified title &amp; clear land records</li>
+                    <li><i class="fas fa-check-circle"></i> RERA-registered projects highlighted</li>
+                </ul>
+                <div class="lp-story-actions">
+                    <a href="/search/?property_type=land" class="lp-btn-primary">Browse Plots &amp; Land</a>
+                    <a href="/search/?property_type=commercial" class="lp-btn-ghost">Commercial Spaces</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     STORY 3: EARN FROM RENTAL
+═══════════════════════════════════════ -->
+<section class="lp-story py-section">
+    <div class="container">
+        <div class="lp-story-grid">
+            <div class="lp-story-text reveal-left">
+                <span class="lp-section-tag">List &amp; Earn</span>
+                <h2 class="lp-section-title">Turn Your Property<br>Into Passive Income</h2>
+                <p class="lp-section-body">
+                    Own a flat, apartment, or commercial space? List it on 10*10 and connect with thousands of potential
+                    tenants and buyers across India — for free. Start earning rental income or sell at the best price.
+                </p>
+                <ul class="lp-check-list">
+                    <li><i class="fas fa-check-circle"></i> Free listing — no hidden charges</li>
+                    <li><i class="fas fa-check-circle"></i> Reach lakhs of verified buyers &amp; renters</li>
+                    <li><i class="fas fa-check-circle"></i> Photo uploads, description &amp; price control</li>
+                    <li><i class="fas fa-check-circle"></i> Manage inquiries from your dashboard</li>
+                </ul>
+                <div class="lp-story-actions">
+                    <a href="/post-listing/" class="lp-btn-primary">List Your Property Free</a>
+                    <a href="{% url 'register' %}" class="lp-btn-ghost">Create Account</a>
+                </div>
+            </div>
+            <div class="lp-story-image reveal-right">
+                <div class="lp-img-frame">
+                    <img src="{% static 'img/apartment_building.png' %}" alt="Rental Property" />
+                    <div class="lp-img-badge">
+                        <i class="fas fa-rupee-sign"></i> Earn Monthly Rental
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FEATURED LISTINGS
+═══════════════════════════════════════ -->
+<section class="py-section lp-featured-bg">
+    <div class="container">
+        <div class="lp-section-header reveal">
+            <div>
+                <span class="lp-section-tag">Live on 10*10</span>
+                <h2 class="lp-section-title">Featured <span class="text-warning">Listings</span></h2>
+            </div>
+            <a href="{% url 'listings' %}" class="lp-btn-ghost">View All →</a>
+        </div>
+
         {% if listings %}
         <div class="row g-4">
             {% for l in listings %}
             <div class="col-lg-4 col-md-6 reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
-                <div class="prop-card h-100 tilt-card">
+                <div class="prop-card h-100 lp-prop-card">
                     <div class="prop-img-wrap">
                         {% if l.photo_main %}
                         <img src="{{ l.photo_main.url }}" class="prop-img" alt="{{ l.title }}" />
@@ -130,26 +237,17 @@
                         {% endif %}
                     </div>
                     <div class="prop-body">
-                        <div class="d-flex gap-2 mb-2">
-                            <span class="ptype-chip">{{ l.get_property_type_display }}</span>
-                        </div>
-                        <p class="prop-price mb-1">
-                            {{ l.price_inr }}
-                            {% if l.listing_type == 'rent' %}
-                            <span class="small text-muted">/mo</span>
-                            {% endif %}
-                        </p>
-                        <h6 class="fw-700 mb-1">
-                            <a href="{% url 'listing' l.pk %}" class="text-white text-decoration-none">{{ l.title }}</a>
-                        </h6>
-                        <p class="text-muted small mb-2">
-                            <i class="fas fa-map-marker-alt me-1 text-warning"></i>{{ l.city }}, {{ l.state }}
-                        </p>
+                        <span class="ptype-chip mb-2 d-inline-block">{{ l.get_property_type_display }}</span>
+                        <p class="prop-price mb-1">{{ l.price_inr }}{% if l.listing_type == 'rent' %}<span
+                                class="small text-muted"> /mo</span>{% endif %}</p>
+                        <h6 class="fw-700 mb-1"><a href="{% url 'listing' l.pk %}"
+                                class="text-white text-decoration-none">{{ l.title }}</a></h6>
+                        <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1 text-warning"></i>{{
+                            l.city }}, {{ l.state }}</p>
                         <div class="prop-feats">
                             {% if l.bedrooms %}<span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>{% endif %}
                             {% if l.bathrooms %}<span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>{% endif %}
                             {% if l.sqft %}<span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>{% endif %}
-
                         </div>
                     </div>
                 </div>
@@ -157,129 +255,185 @@
             {% endfor %}
         </div>
         {% else %}
-        <p class="text-muted text-center py-5">No listings yet — check back soon!</p>
+        <p class="text-muted text-center py-5">No listings yet — be the first to post!</p>
         {% endif %}
     </div>
 </section>
 
-<!-- Why Us -->
-<section class="why-us py-5">
+
+<!-- PHOTO SHOWCASE -->
+<section class="lp-showcase py-section">
+  <div class="container">
+    <div class="text-center reveal mb-4">
+      <span class="lp-section-tag">Explore Properties</span>
+      <h2 class="lp-section-title">Discover <span class="text-warning">Every Style</span> of Living</h2>
+    </div>
+    <div class="lp-showcase-grid">
+      <div class="lp-showcase-main reveal-left">
+        <div class="lp-img-frame">
+          <img src="{% static 'img/villa_pool.png' %}" alt="Luxury Villa" />
+          <div class="lp-img-badge"><i class="fas fa-swimming-pool"></i> Luxury Villas</div>
+        </div>
+      </div>
+      <div class="lp-showcase-side">
+        <div class="lp-img-frame reveal-right" style="transition-delay:100ms">
+          <img src="{% static 'img/kitchen.png' %}" alt="Modern Kitchen" />
+          <div class="lp-img-badge"><i class="fas fa-couch"></i> Premium Interiors</div>
+        </div>
+        <div class="lp-img-frame reveal-right" style="transition-delay:220ms">
+          <img src="{% static 'img/city_skyline.png' %}" alt="City Skyline" />
+          <div class="lp-img-badge"><i class="fas fa-city"></i> Metro Cities</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     HOW IT WORKS
+═══════════════════════════════════════ -->
+<section class="py-section">
     <div class="container text-center">
-        <h2 class="fw-700 mb-4 reveal">Why <span class="text-warning">10*10?</span></h2>
-        <div class="row g-4">
+        <div class="reveal">
+            <span class="lp-section-tag">Simple Process</span>
+            <h2 class="lp-section-title">How 10*10 Works</h2>
+            <p class="lp-section-sub">Find, contact, and move in — it takes just minutes</p>
+        </div>
+        <div class="lp-steps">
+            <div class="lp-step reveal" style="transition-delay:0ms">
+                <div class="lp-step-num">01</div>
+                <div class="lp-step-icon"><i class="fas fa-search"></i></div>
+                <h5 class="fw-700">Search</h5>
+                <p class="text-muted small">Use smart filters to find properties by city, price, type, and size.</p>
+            </div>
+            <div class="lp-step-arrow reveal" style="transition-delay:150ms">→</div>
+            <div class="lp-step reveal" style="transition-delay:200ms">
+                <div class="lp-step-num">02</div>
+                <div class="lp-step-icon"><i class="fas fa-comments"></i></div>
+                <h5 class="fw-700">Connect</h5>
+                <p class="text-muted small">Contact the seller or owner directly — no broker, no middleman.</p>
+            </div>
+            <div class="lp-step-arrow reveal" style="transition-delay:350ms">→</div>
+            <div class="lp-step reveal" style="transition-delay:400ms">
+                <div class="lp-step-num">03</div>
+                <div class="lp-step-icon"><i class="fas fa-key"></i></div>
+                <h5 class="fw-700">Move In</h5>
+                <p class="text-muted small">Visit the property, finalize the deal, and move in to your new space.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     WHY 10*10
+═══════════════════════════════════════ -->
+<section class="lp-why py-section">
+    <div class="container">
+        <div class="text-center reveal">
+            <span class="lp-section-tag">Our Promise</span>
+            <h2 class="lp-section-title">Why India Chooses <span class="text-warning">10*10</span></h2>
+        </div>
+        <div class="row g-4 mt-2">
             <div class="col-md-3 reveal" style="transition-delay:0ms">
-                <div class="why-card">
-                    <div class="why-icon"><i class="fas fa-search"></i></div>
-                    <h6 class="fw-700 mt-3">Smart Search</h6>
-                    <p class="small text-muted mb-0">Filter by city, price, bedrooms &amp; more</p>
+                <div class="lp-why-card">
+                    <div class="lp-why-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h6 class="fw-700 mt-3">Verified Listings</h6>
+                    <p class="small text-muted">Every property is checked and verified before going live.</p>
                 </div>
             </div>
             <div class="col-md-3 reveal" style="transition-delay:100ms">
-                <div class="why-card">
-                    <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
-                    <h6 class="fw-700 mt-3">Verified</h6>
-                    <p class="small text-muted mb-0">Every listing carefully reviewed</p>
+                <div class="lp-why-card">
+                    <div class="lp-why-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                    <h6 class="fw-700 mt-3">Zero Brokerage</h6>
+                    <p class="small text-muted">Connect directly with owners — no extra fees, no commission.</p>
                 </div>
             </div>
             <div class="col-md-3 reveal" style="transition-delay:200ms">
-                <div class="why-card">
-                    <div class="why-icon"><i class="fas fa-comments"></i></div>
-                    <h6 class="fw-700 mt-3">Direct Contact</h6>
-                    <p class="small text-muted mb-0">Talk to sellers, no middlemen</p>
+                <div class="lp-why-card">
+                    <div class="lp-why-icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <h6 class="fw-700 mt-3">Pan-India Coverage</h6>
+                    <p class="small text-muted">Listings across 40+ cities — metros to emerging towns.</p>
                 </div>
             </div>
             <div class="col-md-3 reveal" style="transition-delay:300ms">
-                <div class="why-card">
-                    <div class="why-icon"><i class="fas fa-code"></i></div>
-                    <h6 class="fw-700 mt-3">Open API</h6>
-                    <p class="small text-muted mb-0">Consume data via our REST API</p>
+                <div class="lp-why-card">
+                    <div class="lp-why-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h6 class="fw-700 mt-3">Easy to Use</h6>
+                    <p class="small text-muted">Search, shortlist, and contact — all in under 2 minutes.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-{% if realtors %}
-<section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="fw-700 text-center mb-4 reveal">Our <span class="text-warning">Realtors</span></h2>
-        <div class="row g-4 justify-content-center">
-            {% for r in realtors %}
-            <div class="col-md-4 text-center reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
-                <div class="realtor-card p-4">
-                    {% if r.photo %}<img src="{{ r.photo.url }}" class="realtor-photo mb-3" alt="{{ r.name }}" />
-                    {% else %}<div class="realtor-ph mb-3"><i class="fas fa-user-tie fa-2x"></i></div>{% endif %}
-                    {% if r.is_mvp %}<span class="badge bg-warning text-dark mb-2">⭐ MVP</span>{% endif %}
-                    <h6 class="fw-700">{{ r.name }}</h6>
-                    <p class="small text-muted">{{ r.description|truncatechars:80 }}</p>
-                    <a href="tel:{{ r.phone }}" class="small text-warning">{{ r.phone }}</a>
-                </div>
-            </div>
-            {% endfor %}
+<!-- ═══════════════════════════════════════
+     CTA BANNER
+═══════════════════════════════════════ -->
+<section class="lp-cta py-section reveal">
+    <div class="lp-cta-bg" style="background-image:url('{% static 'img/hero_bg.png' %}')"></div>
+    <div class="lp-cta-overlay"></div>
+    <div class="container text-center position-relative">
+        <h2 class="fw-800 text-white mb-3" style="font-size:2.4rem">
+            Ready to Find Your <span class="text-warning">Dream Property?</span>
+        </h2>
+        <p class="text-white-50 mb-4" style="font-size:1.1rem">
+            Join thousands of Indians who found their perfect home, investment, or tenant on 10*10 — for free.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'listings' %}" class="lp-cta-btn-primary">Browse All Listings</a>
+            <a href="/post-listing/" class="lp-cta-btn-ghost"><i class="fas fa-plus me-2"></i>Post Property Free</a>
         </div>
     </div>
-</section>
-{% endif %}
-
-<!-- CTA -->
-<section class="cta-section text-center py-5 reveal">
-    <h2 class="fw-700 text-white mb-3">Ready to find your dream home?</h2>
-    <p class="text-white-50 mb-4">Browse listings or post your own property — it's free and easy.</p>
-    <a href="{% url 'listings' %}" class="btn btn-warning btn-lg px-4 fw-600 me-2 mb-2 btn-shimmer">
-        Browse Listings
-    </a>
-    <a href="/post-listing/" class="btn btn-outline-warning btn-lg px-4 fw-600 me-2 mb-2">
-        <i class="fas fa-plus me-1"></i>Post Property
-    </a>
-    <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4 fw-600 mb-2">Register Free</a>
 </section>
 
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-    // ── Scroll reveal ────────────────────────────────────────────
-    const revealEls = document.querySelectorAll('.reveal');
+    // Scroll reveal
     const revealObs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) { e.target.classList.add('visible'); }
-        });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => revealObs.observe(el));
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
 
-    // ── 3D Card tilt ─────────────────────────────────────────────
-    document.querySelectorAll('.tilt-card').forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const r = card.getBoundingClientRect();
-            const x = e.clientX - r.left - r.width / 2;
-            const y = e.clientY - r.top - r.height / 2;
-            card.style.transform = `perspective(600px) rotateY(${x / 25}deg) rotateX(${-y / 25}deg) translateY(-6px)`;
+    // Stat counters (trigger on reveal)
+    const counterObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el = e.target;
+            const target = +el.dataset.target;
+            if (!target || el.dataset.done) return;
+            el.dataset.done = '1';
+            let n = 0;
+            const step = Math.max(1, Math.ceil(target / 80));
+            const t = setInterval(() => {
+                n = Math.min(n + step, target);
+                el.textContent = n.toLocaleString();
+                if (n >= target) clearInterval(t);
+            }, 18);
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-num').forEach(el => counterObs.observe(el));
+
+    // Subtle card hover lift (no 3D tilt — just clean lift)
+    document.querySelectorAll('.lp-prop-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-6px)';
+            card.style.boxShadow = '0 20px 50px rgba(0,0,0,.4)';
         });
         card.addEventListener('mouseleave', () => {
             card.style.transform = '';
+            card.style.boxShadow = '';
         });
     });
 
-    // ── Stat counters (for page load) ───────────────────────────
-    document.querySelectorAll('.stat-num').forEach(el => {
-        const target = +el.dataset.target;
-        if (!target) return;
-        let n = 0;
-        const step = Math.max(1, Math.ceil(target / 60));
-        const t = setInterval(() => {
-            n = Math.min(n + step, target);
-            el.textContent = n.toLocaleString();
-            if (n >= target) clearInterval(t);
-        }, 20);
-    });
-
-    // ── Why-us icon bounce on hover ──────────────────────────────
-    document.querySelectorAll('.why-icon').forEach(icon => {
-        icon.closest('.why-card').addEventListener('mouseenter', () => {
-            icon.classList.add('icon-bounce');
+    // Why-card icon subtle pop on hover
+    document.querySelectorAll('.lp-why-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.querySelector('.lp-why-icon').style.transform = 'scale(1.12)';
         });
-        icon.closest('.why-card').addEventListener('animationend', () => {
-            icon.classList.remove('icon-bounce');
+        card.addEventListener('mouseleave', () => {
+            card.querySelector('.lp-why-icon').style.transform = '';
         });
     });
 </script>
