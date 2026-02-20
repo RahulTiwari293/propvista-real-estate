@@ -198,34 +198,55 @@ def dashboard(request):
     })
 
 
+
 # ─── Property Posting ────────────────────────────────────────────────────────────
+
+def _safe_int(val, default=None):
+    """Return int(val) or default if val is empty / non-numeric."""
+    try:
+        return int(val) if val and str(val).strip() else default
+    except (ValueError, TypeError):
+        return default
+
+
+def _safe_float(val, default=None):
+    """Return float(val) or default if val is empty / non-numeric."""
+    try:
+        return float(val) if val and str(val).strip() else default
+    except (ValueError, TypeError):
+        return default
+
 
 @login_required(login_url='/login/')
 def post_listing(request):
     if request.method == 'POST':
         p = request.POST
         f = request.FILES
-        listing = Listing(
-            posted_by=request.user,
-            listing_type=p.get('listing_type', 'sale'),
-            title=p.get('title', ''),
-            address=p.get('address', ''),
-            city=p.get('city', ''),
-            state=p.get('state', ''),
-            price=int(p.get('price', 0)),
-            bedrooms=int(p.get('bedrooms', 1)),
-            bathrooms=float(p.get('bathrooms', 1.0)),
-            sqft=int(p.get('sqft', 0)),
-            description=p.get('description', ''),
-            is_published=False,  # needs admin approval
-        )
-        if f.get('photo_main'):
-            listing.photo_main = f['photo_main']
-        if f.get('photo_1'):
-            listing.photo_1 = f['photo_1']
-        if f.get('photo_2'):
-            listing.photo_2 = f['photo_2']
-        listing.save()
-        messages.success(request, '🎉 Your listing has been submitted! It will go live after admin review.')
-        return redirect('dashboard')
+        try:
+            listing = Listing(
+                posted_by=request.user,
+                listing_type=p.get('listing_type', 'sale'),
+                property_type=p.get('property_type', 'apartment'),
+                title=p.get('title', '').strip(),
+                address=p.get('address', '').strip(),
+                city=p.get('city', '').strip(),
+                state=p.get('state', '').strip(),
+                price=_safe_int(p.get('price'), 0),
+                bedrooms=_safe_int(p.get('bedrooms')),          # nullable — None for land
+                bathrooms=_safe_float(p.get('bathrooms')),      # nullable — None for land
+                sqft=_safe_int(p.get('sqft')),                  # nullable
+                description=p.get('description', '').strip(),
+                is_published=False,  # admin approves before going live
+            )
+            if f.get('photo_main'):
+                listing.photo_main = f['photo_main']
+            if f.get('photo_1'):
+                listing.photo_1 = f['photo_1']
+            if f.get('photo_2'):
+                listing.photo_2 = f['photo_2']
+            listing.save()
+            messages.success(request, '🎉 Listing submitted! It will go live after admin review.')
+            return redirect('dashboard')
+        except Exception as exc:
+            messages.error(request, f'Could not submit listing: {exc}')
     return render(request, 'post_listing.html')
