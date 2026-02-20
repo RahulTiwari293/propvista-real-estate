@@ -164,12 +164,14 @@ def logout_view(request):
 def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    my_listings = Listing.objects.filter(posted_by=request.user).order_by('-list_date')
+    u = request.user
+    my_listings = Listing.objects.filter(posted_by=u).order_by('-list_date')
     return render(request, 'dashboard.html', {
-        'contacts': Contact.objects.filter(user=request.user).order_by('-contact_date'),
+        'contacts': Contact.objects.filter(user=u).order_by('-contact_date'),
         'my_listings': my_listings,
         'live_count': my_listings.filter(is_published=True).count(),
         'pending_count': my_listings.filter(is_published=False).count(),
+        'display_name': u.first_name or u.username,
     })
 
 

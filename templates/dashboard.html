@@ -6,8 +6,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
-                <h2 class="fw-800 text-white mb-1">Welcome, <span class="text-warning">{{
-                        user.first_name|default:user.username }}</span> 👋</h2>
+                <h2 class="fw-800 text-white mb-1">Welcome, <span class="text-warning">{{ display_name }}</span> 👋</h2>
                 <p class="text-white-50 mb-0 small">Manage your properties and inquiries</p>
             </div>
             <a href="/post-listing/" class="btn btn-warning fw-700 px-4">
