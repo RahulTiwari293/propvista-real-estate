@@ -1221,3 +1221,20 @@ body.search-open {
 .hero-search-btn {
   animation: pulse-glow 2.5s ease-in-out infinite;
 }
+
+/* ── Word-drop animation ────────────────────── */
+@keyframes wordDrop {
+  0%   { opacity: 0; transform: translateY(-56px) scale(.92); filter: blur(8px); }
+  55%  { opacity: 1; transform: translateY(10px)  scale(1.02); filter: blur(0); }
+  75%  { transform: translateY(-4px) scale(.99); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.word-drop {
+  display: inline-block;
+  opacity: 0;
+  animation: wordDrop .65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* remove old typewriter cursor (replaced by word-drop) */
+.hero-typewriter::after { display: none; }
