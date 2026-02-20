@@ -90,19 +90,42 @@ def listing(request, pk):
 def search(request):
     qs = Listing.objects.filter(is_published=True)
     q = request.GET
-    if q.get('keywords'):      qs = qs.filter(title__icontains=q['keywords'])
-    if q.get('city'):          qs = qs.filter(city__icontains=q['city'])
-    if q.get('state'):         qs = qs.filter(state__iexact=q['state'])
-    if q.get('bedrooms'):      qs = qs.filter(bedrooms__gte=q['bedrooms'])
-    if q.get('price'):         qs = qs.filter(price__lte=q['price'])
+    if q.get('keywords'):  qs = qs.filter(title__icontains=q['keywords'])
+    if q.get('city'):      qs = qs.filter(city__icontains=q['city'])
+    if q.get('state'):     qs = qs.filter(state__iexact=q['state'])
+    if q.get('bedrooms'):  qs = qs.filter(bedrooms__gte=q['bedrooms'])
+    if q.get('price'):     qs = qs.filter(price__lte=q['price'])
     if q.get('listing_type') in ('sale', 'rent'):
         qs = qs.filter(listing_type=q['listing_type'])
     if q.get('property_type') in ('apartment', 'house', 'villa', 'land', 'commercial'):
         qs = qs.filter(property_type=q['property_type'])
+    state = q.get('state', '')
+    ptype = q.get('property_type', '')
+    ltype = q.get('listing_type', '')
+    price_v = q.get('price', '')
+    states = ['Maharashtra', 'Karnataka', 'Delhi', 'Tamil Nadu', 'Gujarat',
+              'Telangana', 'Kerala', 'Rajasthan', 'West Bengal',
+              'Uttar Pradesh', 'Punjab', 'Haryana']
+    # Pre-compute selected booleans so templates need no == comparisons
     return render(request, 'search.html', {
-        'listings': qs.order_by('-list_date'),
-        'values': q,
+        'listings':           qs.order_by('-list_date'),
+        'values':             q,
+        'state_opts':         [{'name': s, 'sel': state == s} for s in states],
+        'ptype_apartment':    ptype == 'apartment',
+        'ptype_house':        ptype == 'house',
+        'ptype_villa':        ptype == 'villa',
+        'ptype_land':         ptype == 'land',
+        'ptype_commercial':   ptype == 'commercial',
+        'ltype_sale':         ltype == 'sale',
+        'ltype_rent':         ltype == 'rent',
+        'price_20l':          price_v == '2000000',
+        'price_50l':          price_v == '5000000',
+        'price_1cr':          price_v == '10000000',
+        'price_2cr':          price_v == '20000000',
+        'price_5cr':          price_v == '50000000',
     })
+
+
 
 
 def contact(request):

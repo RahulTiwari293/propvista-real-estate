@@ -21,14 +21,21 @@
             <a class="navbar-brand brand-logo" href="/">
                 <i class="fas fa-building me-1"></i>10<span class="text-warning">*</span>10
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <div class="d-flex align-items-center gap-2 ms-auto">
+                <!-- Search trigger -->
+                <button class="search-trigger" id="searchTrigger" title="Search properties">
+                    <i class="fas fa-search"></i>
+                    <span class="d-none d-md-inline ms-2">Search…</span>
+                </button>
+                <!-- Hamburger -->
+                <button class="navbar-toggler ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
             <div class="collapse navbar-collapse" id="navMenu">
                 <ul class="navbar-nav ms-auto align-items-center gap-1">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/listings/">Listings</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/search/">Search</a></li>
                     <li class="nav-item"><a class="nav-link" href="/about/">Realtors</a></li>
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="/dashboard/"><i
@@ -53,6 +60,68 @@
             </div>
         </div>
     </nav>
+
+    <!-- ── Search Modal Overlay ──────────────────────────────── -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-modal-box">
+            <button class="search-close-btn" id="searchClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <p class="search-modal-label">Find your perfect property</p>
+            <div class="search-input-wrap">
+                <i class="fas fa-search search-input-icon"></i>
+                <input type="text" id="searchInput" class="search-modal-input"
+                    placeholder="City, area, or property type…" autocomplete="off" />
+            </div>
+            <!-- Suggestions dropdown -->
+            <div class="search-suggestions" id="searchSuggestions">
+                <div class="suggestions-label">Popular searches</div>
+                <a class="suggestion-item" href="/listings/?city=Mumbai">
+                    <i class="fas fa-map-marker-alt"></i> Mumbai
+                </a>
+                <a class="suggestion-item" href="/listings/?city=Delhi">
+                    <i class="fas fa-map-marker-alt"></i> Delhi
+                </a>
+                <a class="suggestion-item" href="/listings/?city=Bangalore">
+                    <i class="fas fa-map-marker-alt"></i> Bangalore
+                </a>
+                <a class="suggestion-item" href="/listings/?city=Hyderabad">
+                    <i class="fas fa-map-marker-alt"></i> Hyderabad
+                </a>
+                <a class="suggestion-item" href="/listings/?city=Pune">
+                    <i class="fas fa-map-marker-alt"></i> Pune
+                </a>
+                <div class="suggestions-label mt-3">Browse by type</div>
+                <a class="suggestion-item" href="/listings/?type=sale">
+                    <i class="fas fa-home"></i> For Sale
+                </a>
+                <a class="suggestion-item" href="/listings/?type=rent">
+                    <i class="fas fa-key"></i> For Rent
+                </a>
+                <a class="suggestion-item" href="/search/?property_type=apartment">
+                    <i class="fas fa-building"></i> Apartments
+                </a>
+                <a class="suggestion-item" href="/search/?property_type=villa">
+                    <i class="fas fa-landmark"></i> Villas
+                </a>
+                <a class="suggestion-item" href="/search/?property_type=land">
+                    <i class="fas fa-mountain"></i> Land / Plots
+                </a>
+            </div>
+            <!-- Quick filters -->
+            <div class="search-quick-filters">
+                <a href="/listings/?type=sale" class="qf-pill sale">
+                    <i class="fas fa-home me-1"></i>For Sale
+                </a>
+                <a href="/listings/?type=rent" class="qf-pill rent">
+                    <i class="fas fa-key me-1"></i>For Rent
+                </a>
+                <a href="/search/" class="qf-pill">
+                    <i class="fas fa-sliders-h me-1"></i>Advanced Search
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- ── Flash Messages ────────────────────────────────────── -->
     {% if messages %}
@@ -85,7 +154,7 @@
                         <li><a href="/listings/" class="footer-link">All Listings</a></li>
                         <li><a href="/listings/?type=sale" class="footer-link">For Sale</a></li>
                         <li><a href="/listings/?type=rent" class="footer-link">For Rent</a></li>
-                        <li><a href="/search/" class="footer-link">Search</a></li>
+                        <li><a href="/search/" class="footer-link">Advanced Search</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2">

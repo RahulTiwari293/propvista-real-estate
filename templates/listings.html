@@ -4,7 +4,6 @@
 <div class="page-header">
     <div class="container">
         <h2 class="fw-700 text-white">All <span class="text-warning">Listings</span></h2>
-        <!-- Sale / Rent filter tabs -->
         <div class="d-flex gap-2 mt-3 flex-wrap">
             <a href="/listings/" class="filter-pill {% if current_type == 'all' %}active{% endif %}">All</a>
             <a href="/listings/?type=sale" class="filter-pill sale {% if current_type == 'sale' %}active{% endif %}">
@@ -28,15 +27,21 @@
                     {% else %}
                     <div class="prop-img-ph"><i class="fas fa-home fa-2x opacity-25"></i></div>
                     {% endif %}
-                    <span class="prop-badge {% if l.listing_type == 'rent' %}badge-rent{% else %}badge-sale{% endif %}">
-                        {% if l.listing_type == 'rent' %}<i class="fas fa-key me-1"></i>For Rent
-                        {% else %}<i class="fas fa-home me-1"></i>For Sale{% endif %}
-                    </span>
+                    {% if l.listing_type == 'rent' %}
+                    <span class="prop-badge badge-rent"><i class="fas fa-key me-1"></i>For Rent</span>
+                    {% else %}
+                    <span class="prop-badge badge-sale"><i class="fas fa-home me-1"></i>For Sale</span>
+                    {% endif %}
                 </div>
                 <div class="prop-body">
+                    <div class="d-flex gap-2 mb-2">
+                        <span class="ptype-chip">{{ l.get_property_type_display }}</span>
+                    </div>
                     <p class="prop-price mb-1">
-                        {{ l.price_inr }}{% if l.listing_type == 'rent' %}<span class="small text-muted">/mo</span>{%
-                        endif %}
+                        {{ l.price_inr }}
+                        {% if l.listing_type == 'rent' %}
+                        <span class="small text-muted">/mo</span>
+                        {% endif %}
                     </p>
                     <h6 class="fw-700 mb-1">
                         <a href="{% url 'listing' l.pk %}" class="text-white text-decoration-none">{{ l.title }}</a>
@@ -45,12 +50,19 @@
                         <i class="fas fa-map-marker-alt me-1 text-warning"></i>{{ l.city }}, {{ l.state }}
                     </p>
                     <div class="prop-feats mb-2">
+                        {% if l.bedrooms %}
                         <span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>
+                        {% endif %}
+                        {% if l.bathrooms %}
                         <span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>
+                        {% endif %}
+                        {% if l.sqft %}
                         <span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>
+                        {% endif %}
                     </div>
-                    {% if l.realtor %}<small class="text-muted">Listed by <strong class="text-white">{{ l.realtor.name
-                            }}</strong></small>{% endif %}
+                    {% if l.realtor %}
+                    <small class="text-muted">Listed by <strong class="text-white">{{ l.realtor.name }}</strong></small>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -66,12 +78,12 @@
         {% endfor %}
     </div>
 
-    <!-- Pagination -->
     {% if listings.has_other_pages %}
     <nav class="mt-5 d-flex justify-content-center">
         <ul class="pagination">
             {% if listings.has_previous %}
-            <li class="page-item"><a class="page-link"
+            <li class="page-item">
+                <a class="page-link"
                     href="?page={{ listings.previous_page_number }}{% if current_type != 'all' %}&type={{ current_type }}{% endif %}">«</a>
             </li>
             {% endif %}
@@ -82,7 +94,8 @@
             </li>
             {% endfor %}
             {% if listings.has_next %}
-            <li class="page-item"><a class="page-link"
+            <li class="page-item">
+                <a class="page-link"
                     href="?page={{ listings.next_page_number }}{% if current_type != 'all' %}&type={{ current_type }}{% endif %}">»</a>
             </li>
             {% endif %}

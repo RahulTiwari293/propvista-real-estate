@@ -8,65 +8,62 @@
 </div>
 
 <div class="container py-5">
-  <!-- Filter Form -->
   <div class="glass-card p-4 mb-5">
     <form method="GET" action="/search/">
       <div class="row g-3">
+
         <div class="col-md-3">
           <input type="text" name="keywords" class="form-control dark-input" placeholder="Keywords..."
             value="{{ values.keywords }}">
         </div>
+
         <div class="col-md-2">
           <input type="text" name="city" class="form-control dark-input" placeholder="City" value="{{ values.city }}">
         </div>
+
         <div class="col-md-2">
           <select name="state" class="form-select dark-input">
             <option value="">Any State</option>
-            <option {% if values.state=='Maharashtra' %}selected{% endif %}>Maharashtra</option>
-            <option {% if values.state=='Karnataka' %}selected{% endif %}>Karnataka</option>
-            <option {% if values.state=='Delhi' %}selected{% endif %}>Delhi</option>
-            <option {% if values.state=='Tamil Nadu' %}selected{% endif %}>Tamil Nadu</option>
-            <option {% if values.state=='Gujarat' %}selected{% endif %}>Gujarat</option>
-            <option {% if values.state=='Telangana' %}selected{% endif %}>Telangana</option>
-            <option {% if values.state=='Kerala' %}selected{% endif %}>Kerala</option>
-            <option {% if values.state=='Rajasthan' %}selected{% endif %}>Rajasthan</option>
-            <option {% if values.state=='West Bengal' %}selected{% endif %}>West Bengal</option>
-            <option {% if values.state=='Uttar Pradesh' %}selected{% endif %}>Uttar Pradesh</option>
-            <option {% if values.state=='Punjab' %}selected{% endif %}>Punjab</option>
-            <option {% if values.state=='Haryana' %}selected{% endif %}>Haryana</option>
+            {% for opt in state_opts %}
+            <option value="{{ opt.name }}" {% if opt.sel %} selected{% endif %}>{{ opt.name }}</option>
+            {% endfor %}
           </select>
         </div>
+
         <div class="col-md-2">
           <select name="property_type" class="form-select dark-input">
             <option value="">All Types</option>
-            <option value="apartment" {% if values.property_type=='apartment' %}selected{% endif %}>Apartment</option>
-            <option value="house" {% if values.property_type=='house' %}selected{% endif %}>House</option>
-            <option value="villa" {% if values.property_type=='villa' %}selected{% endif %}>Villa</option>
-            <option value="land" {% if values.property_type=='land' %}selected{% endif %}>Land / Plot</option>
-            <option value="commercial" {% if values.property_type=='commercial' %}selected{% endif %}>Commercial
-            </option>
+            <option value="apartment" {% if ptype_apartment %} selected{% endif %}>Apartment</option>
+            <option value="house" {% if ptype_house %} selected{% endif %}>House</option>
+            <option value="villa" {% if ptype_villa %} selected{% endif %}>Villa</option>
+            <option value="land" {% if ptype_land %} selected{% endif %}>Land / Plot</option>
+            <option value="commercial" {% if ptype_commercial %} selected{% endif %}>Commercial</option>
           </select>
         </div>
+
         <div class="col-md-1">
           <select name="listing_type" class="form-select dark-input">
             <option value="">All</option>
-            <option value="sale" {% if values.listing_type=='sale' %}selected{% endif %}>For Sale</option>
-            <option value="rent" {% if values.listing_type=='rent' %}selected{% endif %}>For Rent</option>
+            <option value="sale" {% if ltype_sale %} selected{% endif %}>For Sale</option>
+            <option value="rent" {% if ltype_rent %} selected{% endif %}>For Rent</option>
           </select>
         </div>
+
         <div class="col-md-1">
           <select name="price" class="form-select dark-input">
-            <option value="">Max ₹</option>
-            <option value="2000000" {% if values.price=='2000000' %}selected{% endif %}>₹20L</option>
-            <option value="5000000" {% if values.price=='5000000' %}selected{% endif %}>₹50L</option>
-            <option value="10000000" {% if values.price=='10000000' %}selected{% endif %}>₹1Cr</option>
-            <option value="20000000" {% if values.price=='20000000' %}selected{% endif %}>₹2Cr</option>
-            <option value="50000000" {% if values.price=='50000000' %}selected{% endif %}>₹5Cr</option>
+            <option value="">Max price</option>
+            <option value="2000000" {% if price_20l %} selected{% endif %}>Rs 20L</option>
+            <option value="5000000" {% if price_50l %} selected{% endif %}>Rs 50L</option>
+            <option value="10000000" {% if price_1cr %} selected{% endif %}>Rs 1Cr</option>
+            <option value="20000000" {% if price_2cr %} selected{% endif %}>Rs 2Cr</option>
+            <option value="50000000" {% if price_5cr %} selected{% endif %}>Rs 5Cr</option>
           </select>
         </div>
+
         <div class="col-md-1">
           <button class="btn btn-warning w-100 fw-600"><i class="fas fa-search"></i></button>
         </div>
+
       </div>
     </form>
   </div>
@@ -84,20 +81,24 @@
           <img src="{{ l.photo_main.url }}" class="prop-img" alt="{{ l.title }}" />
           {% else %}
           <div class="prop-img-ph">
-            <i
-              class="fas fa-{% if l.property_type == 'land' %}mountain{% elif l.property_type == 'commercial' %}store{% else %}home{% endif %} fa-2x opacity-25"></i>
+            <i class="fas fa-home fa-2x opacity-25"></i>
           </div>
           {% endif %}
-          <span class="prop-badge {% if l.listing_type == 'rent' %}badge-rent{% else %}badge-sale{% endif %}">
-            {% if l.listing_type == 'rent' %}For Rent{% else %}For Sale{% endif %}
-          </span>
+          {% if l.listing_type == 'rent' %}
+          <span class="prop-badge badge-rent">For Rent</span>
+          {% else %}
+          <span class="prop-badge badge-sale">For Sale</span>
+          {% endif %}
         </div>
         <div class="prop-body">
           <div class="d-flex gap-2 mb-2">
             <span class="ptype-chip">{{ l.get_property_type_display }}</span>
           </div>
           <p class="prop-price mb-1">
-            {{ l.price_inr }}{% if l.listing_type == 'rent' %}<span class="small text-muted">/mo</span>{% endif %}
+            {{ l.price_inr }}
+            {% if l.listing_type == 'rent' %}
+            <span class="small text-muted">/mo</span>
+            {% endif %}
           </p>
           <h6 class="fw-700 mb-1">
             <a href="/listings/{{ l.pk }}/" class="text-white text-decoration-none">{{ l.title }}</a>
@@ -106,9 +107,15 @@
             <i class="fas fa-map-marker-alt me-1 text-warning"></i>{{ l.city }}, {{ l.state }}
           </p>
           <div class="prop-feats">
-            {% if l.bedrooms %}<span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>{% endif %}
-            {% if l.bathrooms %}<span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>{% endif %}
-            {% if l.sqft %}<span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>{% endif %}
+            {% if l.bedrooms %}
+            <span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>
+            {% endif %}
+            {% if l.bathrooms %}
+            <span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>
+            {% endif %}
+            {% if l.sqft %}
+            <span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -118,8 +125,9 @@
       <div class="empty-state">
         <div class="empty-icon"><i class="fas fa-search"></i></div>
         <h5 class="text-white mt-4">No results found</h5>
-        <p class="text-muted">Try different filters or <a href="/post-listing/" class="text-warning">post a
-            property</a>.</p>
+        <p class="text-muted">Try different filters or
+          <a href="/post-listing/" class="text-warning">post a property</a>.
+        </p>
       </div>
     </div>
     {% endfor %}
