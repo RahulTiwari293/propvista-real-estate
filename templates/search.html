@@ -22,25 +22,36 @@
         <div class="col-md-2">
           <select name="state" class="form-select dark-input">
             <option value="">Any State</option>
-            {% for s in "Maharashtra,Karnataka,Delhi,Tamil Nadu,Gujarat,Telangana,Kerala,Rajasthan,West Bengal,Uttar
-            Pradesh,Punjab,Haryana"|split:"," %}
-            <option {% if values.state==s %}selected{% endif %}>{{ s }}</option>
-            {% endfor %}
+            <option {% if values.state=='Maharashtra' %}selected{% endif %}>Maharashtra</option>
+            <option {% if values.state=='Karnataka' %}selected{% endif %}>Karnataka</option>
+            <option {% if values.state=='Delhi' %}selected{% endif %}>Delhi</option>
+            <option {% if values.state=='Tamil Nadu' %}selected{% endif %}>Tamil Nadu</option>
+            <option {% if values.state=='Gujarat' %}selected{% endif %}>Gujarat</option>
+            <option {% if values.state=='Telangana' %}selected{% endif %}>Telangana</option>
+            <option {% if values.state=='Kerala' %}selected{% endif %}>Kerala</option>
+            <option {% if values.state=='Rajasthan' %}selected{% endif %}>Rajasthan</option>
+            <option {% if values.state=='West Bengal' %}selected{% endif %}>West Bengal</option>
+            <option {% if values.state=='Uttar Pradesh' %}selected{% endif %}>Uttar Pradesh</option>
+            <option {% if values.state=='Punjab' %}selected{% endif %}>Punjab</option>
+            <option {% if values.state=='Haryana' %}selected{% endif %}>Haryana</option>
           </select>
         </div>
         <div class="col-md-2">
-          <select name="listing_type" class="form-select dark-input">
-            <option value="">Sale & Rent</option>
-            <option value="sale" {% if values.listing_type=='sale' %}selected{% endif %}>For Sale</option>
-            <option value="rent" {% if values.listing_type=='rent' %}selected{% endif %}>For Rent</option>
+          <select name="property_type" class="form-select dark-input">
+            <option value="">All Types</option>
+            <option value="apartment" {% if values.property_type=='apartment' %}selected{% endif %}>Apartment</option>
+            <option value="house" {% if values.property_type=='house' %}selected{% endif %}>House</option>
+            <option value="villa" {% if values.property_type=='villa' %}selected{% endif %}>Villa</option>
+            <option value="land" {% if values.property_type=='land' %}selected{% endif %}>Land / Plot</option>
+            <option value="commercial" {% if values.property_type=='commercial' %}selected{% endif %}>Commercial
+            </option>
           </select>
         </div>
         <div class="col-md-1">
-          <select name="bedrooms" class="form-select dark-input">
-            <option value="">Beds</option>
-            {% for n in "1234567" %}
-            <option value="{{ n }}" {% if values.bedrooms==n %}selected{% endif %}>{{ n }}+</option>
-            {% endfor %}
+          <select name="listing_type" class="form-select dark-input">
+            <option value="">All</option>
+            <option value="sale" {% if values.listing_type=='sale' %}selected{% endif %}>For Sale</option>
+            <option value="rent" {% if values.listing_type=='rent' %}selected{% endif %}>For Rent</option>
           </select>
         </div>
         <div class="col-md-1">
@@ -60,7 +71,6 @@
     </form>
   </div>
 
-  <!-- Results -->
   <h5 class="text-white mb-4">
     <span class="text-warning">{{ listings|length }}</span> result{{ listings|length|pluralize }} found
   </h5>
@@ -73,14 +83,19 @@
           {% if l.photo_main %}
           <img src="{{ l.photo_main.url }}" class="prop-img" alt="{{ l.title }}" />
           {% else %}
-          <div class="prop-img-ph"><i class="fas fa-home fa-2x opacity-25"></i></div>
+          <div class="prop-img-ph">
+            <i
+              class="fas fa-{% if l.property_type == 'land' %}mountain{% elif l.property_type == 'commercial' %}store{% else %}home{% endif %} fa-2x opacity-25"></i>
+          </div>
           {% endif %}
           <span class="prop-badge {% if l.listing_type == 'rent' %}badge-rent{% else %}badge-sale{% endif %}">
-            {% if l.listing_type == 'rent' %}<i class="fas fa-key me-1"></i>For Rent
-            {% else %}<i class="fas fa-home me-1"></i>For Sale{% endif %}
+            {% if l.listing_type == 'rent' %}For Rent{% else %}For Sale{% endif %}
           </span>
         </div>
         <div class="prop-body">
+          <div class="d-flex gap-2 mb-2">
+            <span class="ptype-chip">{{ l.get_property_type_display }}</span>
+          </div>
           <p class="prop-price mb-1">
             {{ l.price_inr }}{% if l.listing_type == 'rent' %}<span class="small text-muted">/mo</span>{% endif %}
           </p>
@@ -91,9 +106,9 @@
             <i class="fas fa-map-marker-alt me-1 text-warning"></i>{{ l.city }}, {{ l.state }}
           </p>
           <div class="prop-feats">
-            <span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>
-            <span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>
-            <span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>
+            {% if l.bedrooms %}<span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>{% endif %}
+            {% if l.bathrooms %}<span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>{% endif %}
+            {% if l.sqft %}<span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>{% endif %}
           </div>
         </div>
       </div>
@@ -101,9 +116,9 @@
     {% empty %}
     <div class="col-12">
       <div class="empty-state">
-        <i class="fas fa-search fa-3x mb-3 text-muted"></i>
-        <h5 class="text-white">No results found</h5>
-        <p class="text-muted">Try adjusting your filters or <a href="/post-listing/" class="text-warning">post a
+        <div class="empty-icon"><i class="fas fa-search"></i></div>
+        <h5 class="text-white mt-4">No results found</h5>
+        <p class="text-muted">Try different filters or <a href="/post-listing/" class="text-warning">post a
             property</a>.</p>
       </div>
     </div>

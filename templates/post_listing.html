@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Post Your Property | 10*10{% endblock %}
+{% block title %}Post a Property | 10*10{% endblock %}
 {% block content %}
 <div class="page-header">
     <div class="container text-center">
-        <h2 class="fw-700 text-white">Post Your <span class="text-warning">Property</span></h2>
-        <p class="text-white-50">Fill in the details below. Your listing will go live after admin review (usually within
-            24 hrs).</p>
+        <h2 class="fw-800 text-white mb-1">List Your <span class="text-warning">Property</span></h2>
+        <p class="text-white-50 small">Fill in the details below — your listing goes live after a quick review.</p>
     </div>
 </div>
 
@@ -13,123 +12,193 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="glass-card p-4 p-md-5">
-                <form method="POST" enctype="multipart/form-data" novalidate>
+                <form method="POST" enctype="multipart/form-data" novalidate id="listingForm">
                     {% csrf_token %}
 
-                    <!-- Listing Type Toggle -->
-                    <div class="mb-4">
-                        <label class="form-label fw-600 text-white">Listing Type *</label>
-                        <div class="d-flex gap-3">
-                            <div class="listing-type-btn active" id="btn-sale" onclick="setType('sale')">
-                                <i class="fas fa-home me-2"></i>For Sale
+                    <!-- Step 1: Type -->
+                    <div class="form-section mb-4">
+                        <h6 class="section-label">1. What are you listing?</h6>
+                        <div class="row g-2">
+                            <div class="col-6 col-md-4">
+                                <label class="type-card" id="card-sale" onclick="setListingType('sale')">
+                                    <i class="fas fa-tag fa-lg mb-2 text-warning"></i>
+                                    <div class="fw-700">For Sale</div>
+                                </label>
                             </div>
-                            <div class="listing-type-btn" id="btn-rent" onclick="setType('rent')">
-                                <i class="fas fa-key me-2"></i>For Rent
+                            <div class="col-6 col-md-4">
+                                <label class="type-card" id="card-rent" onclick="setListingType('rent')">
+                                    <i class="fas fa-key fa-lg mb-2 text-warning"></i>
+                                    <div class="fw-700">For Rent</div>
+                                </label>
                             </div>
                         </div>
-                        <input type="hidden" name="listing_type" id="listing_type_input" value="sale">
+                        <input type="hidden" name="listing_type" id="listing_type" value="sale">
                     </div>
 
-                    <!-- Title -->
-                    <div class="mb-3">
-                        <label class="form-label fw-600 text-white">Property Title *</label>
-                        <input type="text" name="title" class="form-control dark-input"
-                            placeholder="e.g. Spacious 3BHK in Bandra West" required>
+                    <!-- Property Category -->
+                    <div class="form-section mb-4">
+                        <h6 class="section-label">2. Property Category</h6>
+                        <div class="row g-2">
+                            <div class="col-6 col-sm-4 col-md-2-4">
+                                <label class="type-card" id="card-apartment" onclick="setPropType('apartment')">
+                                    <i class="fas fa-building fa-lg mb-2 text-warning"></i>
+                                    <div class="fw-600 small">Apartment</div>
+                                </label>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-2-4">
+                                <label class="type-card" id="card-house" onclick="setPropType('house')">
+                                    <i class="fas fa-home fa-lg mb-2 text-warning"></i>
+                                    <div class="fw-600 small">House</div>
+                                </label>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-2-4">
+                                <label class="type-card" id="card-villa" onclick="setPropType('villa')">
+                                    <i class="fas fa-landmark fa-lg mb-2 text-warning"></i>
+                                    <div class="fw-600 small">Villa</div>
+                                </label>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-2-4">
+                                <label class="type-card" id="card-land" onclick="setPropType('land')">
+                                    <i class="fas fa-mountain fa-lg mb-2 text-warning"></i>
+                                    <div class="fw-600 small">Land / Plot</div>
+                                </label>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-2-4">
+                                <label class="type-card" id="card-commercial" onclick="setPropType('commercial')">
+                                    <i class="fas fa-store fa-lg mb-2 text-warning"></i>
+                                    <div class="fw-600 small">Commercial</div>
+                                </label>
+                            </div>
+                        </div>
+                        <input type="hidden" name="property_type" id="property_type" value="apartment">
                     </div>
 
-                    <!-- Address -->
-                    <div class="mb-3">
-                        <label class="form-label fw-600 text-white">Street Address *</label>
-                        <input type="text" name="address" class="form-control dark-input" placeholder="e.g. 12, MG Road"
-                            required>
+                    <!-- Property Details -->
+                    <div class="form-section mb-4">
+                        <h6 class="section-label">3. Property Details</h6>
+                        <div class="mb-3">
+                            <label class="form-label text-white-50 small">Title *</label>
+                            <input type="text" name="title" class="form-control dark-input"
+                                placeholder="e.g. Spacious 3BHK near Metro" required>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50 small">Street Address *</label>
+                                <input type="text" name="address" class="form-control dark-input"
+                                    placeholder="e.g. 12, MG Road" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-white-50 small">City *</label>
+                                <input type="text" name="city" class="form-control dark-input" placeholder="Mumbai"
+                                    required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-white-50 small">State *</label>
+                                <select name="state" class="form-select dark-input" required>
+                                    <option value="">Select</option>
+                                    <option>Maharashtra</option>
+                                    <option>Karnataka</option>
+                                    <option>Delhi</option>
+                                    <option>Tamil Nadu</option>
+                                    <option>Gujarat</option>
+                                    <option>Telangana</option>
+                                    <option>Kerala</option>
+                                    <option>Rajasthan</option>
+                                    <option>West Bengal</option>
+                                    <option>Uttar Pradesh</option>
+                                    <option>Punjab</option>
+                                    <option>Haryana</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-600 text-white">City *</label>
-                            <input type="text" name="city" class="form-control dark-input" placeholder="e.g. Mumbai"
-                                required>
+                    <!-- Price & Size -->
+                    <div class="form-section mb-4">
+                        <h6 class="section-label">4. Price & Size</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label text-white-50 small">Price (₹) *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text dark-input-addon">₹</span>
+                                    <input type="number" name="price" class="form-control dark-input"
+                                        placeholder="e.g. 8500000" min="1" required>
+                                </div>
+                                <small class="text-muted">For rent: monthly amount</small>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-white-50 small">Area (sqft / sq.yards)</label>
+                                <input type="number" name="sqft" class="form-control dark-input"
+                                    placeholder="e.g. 1200">
+                            </div>
+                            <div class="col-md-4" id="beds-baths-section">
+                                <!-- hidden for land/commercial -->
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-600 text-white">State *</label>
-                            <input type="text" name="state" class="form-control dark-input"
-                                placeholder="e.g. Maharashtra" required>
-                        </div>
-                    </div>
-
-                    <!-- Price -->
-                    <div class="mb-3">
-                        <label class="form-label fw-600 text-white">Price (₹) *</label>
-                        <div class="input-group">
-                            <span class="input-group-text dark-input-addon">₹</span>
-                            <input type="number" name="price" class="form-control dark-input" placeholder="e.g. 8500000"
-                                min="1" required>
-                        </div>
-                        <small class="text-muted">For rent: enter monthly rent amount</small>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label fw-600 text-white">Bedrooms *</label>
-                            <select name="bedrooms" class="form-select dark-input" required>
-                                {% for n in "1234567" %}
-                                <option value="{{ n }}">{{ n }} BHK</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label fw-600 text-white">Bathrooms *</label>
-                            <select name="bathrooms" class="form-select dark-input" required>
-                                <option value="1.0">1</option>
-                                <option value="1.5">1.5</option>
-                                <option value="2.0">2</option>
-                                <option value="2.5">2.5</option>
-                                <option value="3.0">3</option>
-                                <option value="4.0">4</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label fw-600 text-white">Area (sqft) *</label>
-                            <input type="number" name="sqft" class="form-control dark-input" placeholder="e.g. 1200"
-                                required>
+                        <!-- Beds & Baths (shown for non-land) -->
+                        <div class="row g-3 mt-1" id="beds-baths-row">
+                            <div class="col-md-3">
+                                <label class="form-label text-white-50 small">Bedrooms</label>
+                                <select name="bedrooms" class="form-select dark-input">
+                                    <option value="">N/A</option>
+                                    <option value="1">1 BHK</option>
+                                    <option value="2">2 BHK</option>
+                                    <option value="3">3 BHK</option>
+                                    <option value="4">4 BHK</option>
+                                    <option value="5">5 BHK</option>
+                                    <option value="6">6+ BHK</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-white-50 small">Bathrooms</label>
+                                <select name="bathrooms" class="form-select dark-input">
+                                    <option value="">N/A</option>
+                                    <option value="1.0">1</option>
+                                    <option value="1.5">1.5</option>
+                                    <option value="2.0">2</option>
+                                    <option value="2.5">2.5</option>
+                                    <option value="3.0">3</option>
+                                    <option value="4.0">4+</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Description -->
-                    <div class="mb-4">
-                        <label class="form-label fw-600 text-white">Description</label>
+                    <div class="form-section mb-4">
+                        <h6 class="section-label">5. Description</h6>
                         <textarea name="description" class="form-control dark-input" rows="4"
-                            placeholder="Describe the property — nearby landmarks, amenities, furnishing status..."></textarea>
+                            placeholder="Describe the property — nearby landmarks, amenities, furnishing status, facing direction..."></textarea>
                     </div>
 
                     <!-- Photos -->
-                    <div class="mb-4">
-                        <label class="form-label fw-600 text-white">Photos</label>
-                        <div class="row g-2">
+                    <div class="form-section mb-5">
+                        <h6 class="section-label">6. Photos <span class="text-muted fw-400">(optional)</span></h6>
+                        <div class="row g-3">
                             <div class="col-md-4">
-                                <label class="small text-muted mb-1">Main Photo</label>
+                                <label class="text-white-50 small d-block mb-1">Main Photo</label>
                                 <input type="file" name="photo_main" class="form-control dark-input" accept="image/*">
                             </div>
                             <div class="col-md-4">
-                                <label class="small text-muted mb-1">Photo 2</label>
+                                <label class="text-white-50 small d-block mb-1">Photo 2</label>
                                 <input type="file" name="photo_1" class="form-control dark-input" accept="image/*">
                             </div>
                             <div class="col-md-4">
-                                <label class="small text-muted mb-1">Photo 3</label>
+                                <label class="text-white-50 small d-block mb-1">Photo 3</label>
                                 <input type="file" name="photo_2" class="form-control dark-input" accept="image/*">
                             </div>
                         </div>
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-warning btn-lg fw-700">
-                            <i class="fas fa-paper-plane me-2"></i>Submit Listing for Review
+                        <button type="submit" class="btn btn-warning btn-lg fw-800">
+                            <i class="fas fa-paper-plane me-2"></i>Submit for Review
                         </button>
                     </div>
                     <p class="text-center text-muted small mt-3">
-                        <i class="fas fa-info-circle me-1"></i>
-                        Listings are reviewed within 24 hours. You'll see your listing status in your <a
-                            href="/dashboard/" class="text-warning">dashboard</a>.
+                        Listings are reviewed within 24 hours. Track status in your
+                        <a href="/dashboard/" class="text-warning">dashboard</a>.
                     </p>
                 </form>
             </div>
@@ -140,10 +209,28 @@
 
 {% block extra_scripts %}
 <script>
-    function setType(type) {
-        document.getElementById('listing_type_input').value = type;
-        document.getElementById('btn-sale').classList.toggle('active', type === 'sale');
-        document.getElementById('btn-rent').classList.toggle('active', type === 'rent');
+    const listingActive = 'card-sale';
+    const propActive = 'card-apartment';
+
+    function setListingType(type) {
+        document.getElementById('listing_type').value = type;
+        ['sale', 'rent'].forEach(t => {
+            document.getElementById('card-' + t).classList.toggle('active', t === type);
+        });
     }
+
+    function setPropType(type) {
+        document.getElementById('property_type').value = type;
+        ['apartment', 'house', 'villa', 'land', 'commercial'].forEach(t => {
+            document.getElementById('card-' + t).classList.toggle('active', t === type);
+        });
+        // Hide beds/baths for land/commercial
+        const hideBeds = ['land', 'commercial'].includes(type);
+        document.getElementById('beds-baths-row').style.display = hideBeds ? 'none' : '';
+    }
+
+    // Init defaults
+    document.getElementById('card-sale').classList.add('active');
+    document.getElementById('card-apartment').classList.add('active');
 </script>
 {% endblock %}

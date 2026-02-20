@@ -90,13 +90,15 @@ def listing(request, pk):
 def search(request):
     qs = Listing.objects.filter(is_published=True)
     q = request.GET
-    if q.get('keywords'):    qs = qs.filter(title__icontains=q['keywords'])
-    if q.get('city'):        qs = qs.filter(city__icontains=q['city'])
-    if q.get('state'):       qs = qs.filter(state__iexact=q['state'])
-    if q.get('bedrooms'):    qs = qs.filter(bedrooms__gte=q['bedrooms'])
-    if q.get('price'):       qs = qs.filter(price__lte=q['price'])
+    if q.get('keywords'):      qs = qs.filter(title__icontains=q['keywords'])
+    if q.get('city'):          qs = qs.filter(city__icontains=q['city'])
+    if q.get('state'):         qs = qs.filter(state__iexact=q['state'])
+    if q.get('bedrooms'):      qs = qs.filter(bedrooms__gte=q['bedrooms'])
+    if q.get('price'):         qs = qs.filter(price__lte=q['price'])
     if q.get('listing_type') in ('sale', 'rent'):
         qs = qs.filter(listing_type=q['listing_type'])
+    if q.get('property_type') in ('apartment', 'house', 'villa', 'land', 'commercial'):
+        qs = qs.filter(property_type=q['property_type'])
     return render(request, 'search.html', {
         'listings': qs.order_by('-list_date'),
         'values': q,
@@ -162,9 +164,12 @@ def logout_view(request):
 def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
+    my_listings = Listing.objects.filter(posted_by=request.user).order_by('-list_date')
     return render(request, 'dashboard.html', {
         'contacts': Contact.objects.filter(user=request.user).order_by('-contact_date'),
-        'my_listings': Listing.objects.filter(posted_by=request.user).order_by('-list_date'),
+        'my_listings': my_listings,
+        'live_count': my_listings.filter(is_published=True).count(),
+        'pending_count': my_listings.filter(is_published=False).count(),
     })
 
 
