@@ -3,3 +3,6 @@ pillow>=11.0
 django-crispy-forms>=2.0
 crispy-bootstrap5>=2024.1
 djangorestframework>=3.16
+whitenoise>=6.8
+dj-database-url>=2.3
+psycopg2-binary>=2.9
