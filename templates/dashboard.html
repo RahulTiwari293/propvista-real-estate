@@ -2,15 +2,13 @@
 {% block title %}Dashboard | 10*10{% endblock %}
 {% block content %}
 
-<!-- Page Header -->
 <div class="page-header">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
-                <h2 class="fw-800 text-white mb-1">
-                    Welcome back, <span class="text-warning">{{ user.first_name|default:user.username }}</span> 👋
-                </h2>
-                <p class="text-white-50 mb-0 small">Here's an overview of your activity on 10*10</p>
+                <h2 class="fw-800 text-white mb-1">Welcome, <span class="text-warning">{{
+                        user.first_name|default:user.username }}</span> 👋</h2>
+                <p class="text-white-50 mb-0 small">Manage your properties and inquiries</p>
             </div>
             <a href="/post-listing/" class="btn btn-warning fw-700 px-4">
                 <i class="fas fa-plus me-2"></i>Post Property
@@ -21,47 +19,55 @@
 
 <div class="container py-5">
 
-    <!-- Stats Strip -->
+    <!-- Stats Bar -->
     <div class="row g-3 mb-5">
         <div class="col-6 col-md-3">
             <div class="stat-strip">
-                <div class="stat-strip-icon" style="background:rgba(245,166,35,.15); color:var(--gold)">
+                <div class="stat-strip-icon" style="background:rgba(245,166,35,.12);color:var(--gold)">
                     <i class="fas fa-home"></i>
                 </div>
-                <div class="stat-strip-num">{{ my_listings|length }}</div>
-                <div class="stat-strip-label">My Listings</div>
+                <div>
+                    <div class="stat-strip-num">{{ my_listings|length }}</div>
+                    <div class="stat-strip-label">My Listings</div>
+                </div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-strip">
-                <div class="stat-strip-icon" style="background:rgba(34,197,94,.15); color:#22c55e">
+                <div class="stat-strip-icon" style="background:rgba(34,197,94,.12);color:#22c55e">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <div class="stat-strip-num">{{ live_count }}</div>
-                <div class="stat-strip-label">Live</div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-strip">
-                <div class="stat-strip-icon" style="background:rgba(108,99,255,.15); color:#6c63ff">
-                    <i class="fas fa-envelope"></i>
+                <div>
+                    <div class="stat-strip-num">{{ live_count }}</div>
+                    <div class="stat-strip-label">Live</div>
                 </div>
-                <div class="stat-strip-num">{{ contacts|length }}</div>
-                <div class="stat-strip-label">Inquiries</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-strip">
-                <div class="stat-strip-icon" style="background:rgba(249,115,22,.15); color:#f97316">
+                <div class="stat-strip-icon" style="background:rgba(249,115,22,.12);color:#f97316">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="stat-strip-num">{{ pending_count }}</div>
-                <div class="stat-strip-label">Pending Review</div>
+                <div>
+                    <div class="stat-strip-num">{{ pending_count }}</div>
+                    <div class="stat-strip-label">Pending</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-strip">
+                <div class="stat-strip-icon" style="background:rgba(108,99,255,.12);color:#6c63ff">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                    <div class="stat-strip-num">{{ contacts|length }}</div>
+                    <div class="stat-strip-label">Inquiries</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Tab Navigation -->
+    <!-- Tabs -->
     <ul class="nav nav-tabs mb-4">
         <li class="nav-item">
             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-listings">
@@ -77,51 +83,52 @@
 
     <div class="tab-content">
 
-        <!-- ── My Properties Tab ─────────────────────────────── -->
+        <!-- My Properties -->
         <div class="tab-pane fade show active" id="tab-listings">
             {% if my_listings %}
             <div class="row g-4">
                 {% for l in my_listings %}
                 <div class="col-md-6 col-lg-4">
                     <div class="dash-listing-card">
-                        <!-- Image -->
+
+                        <!-- Card Image -->
                         <div class="dash-listing-img">
                             {% if l.photo_main %}
                             <img src="{{ l.photo_main.url }}" alt="{{ l.title }}">
                             {% else %}
                             <div class="dash-listing-img-ph">
-                                <i
-                                    class="fas fa-{% if l.property_type == 'land' %}mountain{% elif l.property_type == 'commercial' %}store{% else %}home{% endif %} fa-2x"></i>
+                                <i class="fas fa-home fa-2x"></i>
                             </div>
                             {% endif %}
-                            <!-- Badges overlay -->
                             <div class="dash-listing-badges">
-                                <span
-                                    class="prop-badge {% if l.listing_type == 'rent' %}badge-rent{% else %}badge-sale{% endif %} badge-sm">
-                                    {{ l.listing_type|upper }}
-                                </span>
+                                {% if l.listing_type == 'rent' %}
+                                <span class="prop-badge badge-rent badge-sm">RENT</span>
+                                {% else %}
+                                <span class="prop-badge badge-sale badge-sm">SALE</span>
+                                {% endif %}
                                 <span class="prop-badge badge-ptype badge-sm">{{ l.get_property_type_display }}</span>
                             </div>
                         </div>
-                        <!-- Body -->
+
+                        <!-- Card Body -->
                         <div class="dash-listing-body">
                             <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h6 class="fw-700 text-white mb-0 flex-grow-1 me-2" style="font-size:.9rem">{{ l.title
-                                    }}</h6>
-                                <span
-                                    class="status-pill {% if l.is_published %}pill-live{% else %}pill-pending{% endif %}">
-                                    {% if l.is_published %}<i class="fas fa-circle me-1"
-                                        style="font-size:.45rem;vertical-align:middle"></i>Live
-                                    {% else %}<i class="fas fa-clock me-1"></i>Pending{% endif %}
-                                </span>
+                                <h6 class="fw-700 text-white mb-0 me-2" style="font-size:.9rem">{{ l.title }}</h6>
+                                {% if l.is_published %}
+                                <span class="status-pill pill-live">Live</span>
+                                {% else %}
+                                <span class="status-pill pill-pending">Pending</span>
+                                {% endif %}
                             </div>
                             <p class="text-muted small mb-2">
                                 <i class="fas fa-map-marker-alt me-1 text-warning"></i>{{ l.city }}, {{ l.state }}
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="fw-800 text-warning">
-                                    {{ l.price_inr }}{% if l.listing_type == 'rent' %}<span
-                                        class="small text-muted fw-400">/mo</span>{% endif %}
+                                    {{ l.price_inr }}
+                                    {% if l.listing_type == 'rent' %}
+                                    <span class="small text-muted fw-400">/mo</span>
+                                    {% endif %}
                                 </span>
                                 <span class="text-muted small">{{ l.list_date|date:"d M Y" }}</span>
                             </div>
@@ -129,13 +136,16 @@
                             <div class="prop-feats mt-2">
                                 <span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>
                                 <span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>
-                                {% if l.sqft %}<span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>{%
-                                endif %}
+                                {% if l.sqft %}
+                                <span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>
+                                {% endif %}
                             </div>
-                            {% elif l.sqft %}
+                            {% else %}
+                            {% if l.sqft %}
                             <div class="prop-feats mt-2">
                                 <span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sq.yd</span>
                             </div>
+                            {% endif %}
                             {% endif %}
                         </div>
                     </div>
@@ -146,8 +156,7 @@
             <div class="empty-state">
                 <div class="empty-icon"><i class="fas fa-home"></i></div>
                 <h5 class="text-white mt-4 mb-2">No properties posted yet</h5>
-                <p class="text-muted">Start by listing your property — it's free and reaches thousands of buyers &
-                    renters.</p>
+                <p class="text-muted">Post your first property — reaches thousands of buyers &amp; renters.</p>
                 <a href="/post-listing/" class="btn btn-warning fw-700 mt-2">
                     <i class="fas fa-plus me-2"></i>Post Your First Property
                 </a>
@@ -155,7 +164,7 @@
             {% endif %}
         </div>
 
-        <!-- ── Inquiries Tab ─────────────────────────────────── -->
+        <!-- Inquiries -->
         <div class="tab-pane fade" id="tab-inquiries">
             {% if contacts %}
             <div class="row g-3">
@@ -166,7 +175,11 @@
                         <div class="flex-grow-1">
                             <div class="fw-700 text-white mb-1">{{ c.listing.title }}</div>
                             <div class="text-muted small">
-                                {% if c.message %}{{ c.message|truncatechars:80 }}{% else %}No message{% endif %}
+                                {% if c.message %}
+                                {{ c.message|truncatechars:80 }}
+                                {% else %}
+                                No message
+                                {% endif %}
                             </div>
                         </div>
                         <div class="text-end flex-shrink-0">
