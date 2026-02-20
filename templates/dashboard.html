@@ -44,17 +44,6 @@
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-strip">
-                <div class="stat-strip-icon" style="background:rgba(249,115,22,.12);color:#f97316">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div>
-                    <div class="stat-strip-num">{{ pending_count }}</div>
-                    <div class="stat-strip-label">Pending</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="stat-strip">
                 <div class="stat-strip-icon" style="background:rgba(108,99,255,.12);color:#6c63ff">
                     <i class="fas fa-envelope"></i>
                 </div>
@@ -113,11 +102,7 @@
                         <div class="dash-listing-body">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h6 class="fw-700 text-white mb-0 me-2" style="font-size:.9rem">{{ l.title }}</h6>
-                                {% if l.is_published %}
                                 <span class="status-pill pill-live">Live</span>
-                                {% else %}
-                                <span class="status-pill pill-pending">Pending</span>
-                                {% endif %}
                             </div>
                             <p class="text-muted small mb-2">
                                 <i class="fas fa-map-marker-alt me-1 text-warning"></i>{{ l.city }}, {{ l.state }}

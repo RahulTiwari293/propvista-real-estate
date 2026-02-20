@@ -193,7 +193,6 @@ def dashboard(request):
         'contacts': Contact.objects.filter(user=u).order_by('-contact_date'),
         'my_listings': my_listings,
         'live_count': my_listings.filter(is_published=True).count(),
-        'pending_count': my_listings.filter(is_published=False).count(),
         'display_name': u.first_name or u.username,
     })
 
