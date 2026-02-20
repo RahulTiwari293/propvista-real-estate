@@ -558,3 +558,237 @@ body {
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, .07);
 }
+
+/* ═══════════════════════════════════════════════
+   DASHBOARD STYLES
+═══════════════════════════════════════════════ */
+
+/* Stat strip (4 mini KPI cards at top of dashboard) */
+.stat-strip {
+  background: var(--dark2);
+  border: 1px solid rgba(255, 255, 255, .07);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-strip-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.stat-strip-num {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.stat-strip-label {
+  font-size: .75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Dashboard property card */
+.dash-listing-card {
+  background: var(--dark2);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .07);
+  transition: transform .25s, box-shadow .25s;
+}
+
+.dash-listing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .5);
+}
+
+.dash-listing-img {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.dash-listing-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s;
+}
+
+.dash-listing-card:hover .dash-listing-img img {
+  transform: scale(1.06);
+}
+
+.dash-listing-img-ph {
+  height: 100%;
+  background: var(--dark3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, .15);
+}
+
+.dash-listing-badges {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.badge-sm {
+  font-size: .65rem !important;
+  padding: 3px 8px !important;
+  position: static !important;
+}
+
+.badge-ptype {
+  background: rgba(255, 255, 255, .15) !important;
+  color: #fff !important;
+}
+
+.dash-listing-body {
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+/* Status pills: Live / Pending */
+.status-pill {
+  font-size: .7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 50px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pill-live {
+  background: rgba(34, 197, 94, .15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, .3);
+}
+
+.pill-pending {
+  background: rgba(249, 115, 22, .15);
+  color: #f97316;
+  border: 1px solid rgba(249, 115, 22, .3);
+}
+
+/* Inquiry row */
+.inquiry-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: var(--dark2);
+  border: 1px solid rgba(255, 255, 255, .07);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.3rem;
+  transition: border-color .2s;
+}
+
+.inquiry-row:hover {
+  border-color: rgba(245, 166, 35, .3);
+}
+
+.inquiry-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(108, 99, 255, .15);
+  color: #6c63ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: .95rem;
+}
+
+/* Empty state icon circle */
+.empty-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .05);
+  color: rgba(255, 255, 255, .2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto;
+}
+
+/* Property type chip (used in search results) */
+.ptype-chip {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .6);
+  border: 1px solid rgba(255, 255, 255, .1);
+  text-transform: capitalize;
+}
+
+/* ═══════════════════════════════════════════════
+   POST LISTING FORM STYLES
+═══════════════════════════════════════════════ */
+
+.form-section {
+  border-bottom: 1px solid rgba(255, 255, 255, .05);
+  padding-bottom: 1.5rem;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.section-label {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+/* Visual card selector (For Sale / For Rent / Apartment / House / etc.) */
+.type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem .75rem;
+  border-radius: 10px;
+  background: var(--dark3);
+  border: 2px solid rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .5);
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  user-select: none;
+  min-height: 80px;
+}
+
+.type-card:hover {
+  border-color: rgba(245, 166, 35, .4);
+  color: rgba(255, 255, 255, .8);
+  background: rgba(245, 166, 35, .05);
+}
+
+.type-card.active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(245, 166, 35, .08);
+}
