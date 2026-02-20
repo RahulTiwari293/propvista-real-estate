@@ -1028,3 +1028,196 @@ body {
 body.search-open {
   overflow: hidden;
 }
+/* ═══════════════════════════════════════════════
+   LANDING PAGE ANIMATIONS
+═══════════════════════════════════════════════ */
+
+/* ── Keyframes ──────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(40px, -30px) scale(1.08); }
+  66%       { transform: translate(-30px, 20px) scale(0.95); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  40%       { transform: translateY(-12px); }
+  60%       { transform: translateY(-6px); }
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0) translateX(-50%); opacity: .8; }
+  50%       { transform: translateY(10px) translateX(-50%); opacity: .3; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,166,35,.35); }
+  50%       { box-shadow: 0 0 0 14px rgba(245,166,35,0); }
+}
+
+/* ── Entrance: fade-in-up ───────────────────── */
+.anim-fade-up {
+  opacity: 0;
+  animation: fadeInUp .7s ease forwards;
+}
+
+/* ── Scroll-reveal ──────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Floating blobs ─────────────────────────── */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: .18;
+  pointer-events: none;
+  z-index: 0;
+}
+.blob-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #f5a623, transparent);
+  top: -120px; left: -100px;
+  animation: blobFloat 12s ease-in-out infinite;
+}
+.blob-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #6c63ff, transparent);
+  bottom: -60px; right: -60px;
+  animation: blobFloat 16s ease-in-out infinite reverse;
+}
+.blob-3 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, #22c55e, transparent);
+  top: 40%; left: 50%;
+  animation: blobFloat 10s ease-in-out 2s infinite;
+}
+
+/* ── Typewriter cursor ──────────────────────── */
+.hero-typewriter::after {
+  content: '|';
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--gold);
+  animation: shimmer 1s step-end infinite;
+}
+
+/* ── Shimmer CTA button ─────────────────────── */
+.btn-shimmer {
+  background: linear-gradient(90deg, var(--gold) 25%, #ffe29a 50%, var(--gold) 75%);
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite, pulse-glow 2s ease-in-out infinite;
+  color: #111;
+  font-weight: 700;
+}
+.btn-shimmer:hover {
+  background-position: right center;
+  color: #111;
+}
+
+/* ── Hero quick-action pills ────────────────── */
+.hero-pills {
+  display: flex;
+  gap: .6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .35rem 1rem;
+  border-radius: 50px;
+  font-size: .8rem;
+  font-weight: 600;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.85);
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  transition: all .2s;
+}
+
+.hero-pill:hover {
+  background: rgba(255,255,255,.2);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.hero-pill.sale {
+  background: rgba(34,197,94,.15);
+  border-color: rgba(34,197,94,.3);
+  color: #4ade80;
+}
+
+.hero-pill.rent {
+  background: rgba(108,99,255,.15);
+  border-color: rgba(108,99,255,.3);
+  color: #a78bfa;
+}
+
+/* ── Scroll indicator ───────────────────────── */
+.scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.scroll-dot {
+  width: 28px;
+  height: 46px;
+  border: 2px solid rgba(255,255,255,.35);
+  border-radius: 14px;
+  position: relative;
+}
+
+.scroll-dot::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 10px;
+  background: rgba(255,255,255,.6);
+  border-radius: 3px;
+  animation: scrollBounce 1.5s ease-in-out infinite;
+}
+
+/* ── Icon bounce on why-card hover ─────────── */
+.icon-bounce {
+  animation: bounce .5s ease;
+}
+
+/* ── 3D tilt cards ──────────────────────────── */
+.tilt-card {
+  transition: transform .1s ease, box-shadow .3s ease;
+  will-change: transform;
+}
+
+.tilt-card:hover {
+  box-shadow: 0 24px 60px rgba(0,0,0,.45), 0 0 0 1px rgba(245,166,35,.15);
+}
+
+/* ── Hero search button glow ────────────────── */
+.hero-search-btn {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
