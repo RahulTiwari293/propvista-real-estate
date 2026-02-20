@@ -16,7 +16,17 @@ class Realtor(models.Model):
 
 
 class Listing(models.Model):
-    realtor = models.ForeignKey(Realtor, on_delete=models.SET_NULL, null=True)
+    SALE = 'sale'
+    RENT = 'rent'
+    LISTING_TYPE_CHOICES = [
+        (SALE, 'For Sale'),
+        (RENT, 'For Rent'),
+    ]
+
+    realtor = models.ForeignKey(Realtor, on_delete=models.SET_NULL, null=True, blank=True)
+    posted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,
+                                  related_name='listings', help_text='User who posted this listing')
+    listing_type = models.CharField(max_length=10, choices=LISTING_TYPE_CHOICES, default=SALE)
     title = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     city = models.CharField(max_length=100)
@@ -29,7 +39,7 @@ class Listing(models.Model):
     photo_main = models.ImageField(upload_to='listings/%Y/%m/', blank=True)
     photo_1 = models.ImageField(upload_to='listings/%Y/%m/', blank=True)
     photo_2 = models.ImageField(upload_to='listings/%Y/%m/', blank=True)
-    is_published = models.BooleanField(default=True)
+    is_published = models.BooleanField(default=False)  # admin approves before going live
     list_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -38,6 +48,10 @@ class Listing(models.Model):
     @property
     def price_inr(self):
         return '₹{:,}'.format(self.price)
+
+    @property
+    def type_label(self):
+        return 'For Rent' if self.listing_type == self.RENT else 'For Sale'
 
 
 class Contact(models.Model):

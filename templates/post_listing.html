@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block title %}Post Your Property | PropVista{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="container text-center">
+        <h2 class="fw-700 text-white">Post Your <span class="text-warning">Property</span></h2>
+        <p class="text-white-50">Fill in the details below. Your listing will go live after admin review (usually within
+            24 hrs).</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="glass-card p-4 p-md-5">
+                <form method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Listing Type Toggle -->
+                    <div class="mb-4">
+                        <label class="form-label fw-600 text-white">Listing Type *</label>
+                        <div class="d-flex gap-3">
+                            <div class="listing-type-btn active" id="btn-sale" onclick="setType('sale')">
+                                <i class="fas fa-home me-2"></i>For Sale
+                            </div>
+                            <div class="listing-type-btn" id="btn-rent" onclick="setType('rent')">
+                                <i class="fas fa-key me-2"></i>For Rent
+                            </div>
+                        </div>
+                        <input type="hidden" name="listing_type" id="listing_type_input" value="sale">
+                    </div>
+
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <label class="form-label fw-600 text-white">Property Title *</label>
+                        <input type="text" name="title" class="form-control dark-input"
+                            placeholder="e.g. Spacious 3BHK in Bandra West" required>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="mb-3">
+                        <label class="form-label fw-600 text-white">Street Address *</label>
+                        <input type="text" name="address" class="form-control dark-input" placeholder="e.g. 12, MG Road"
+                            required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-600 text-white">City *</label>
+                            <input type="text" name="city" class="form-control dark-input" placeholder="e.g. Mumbai"
+                                required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-600 text-white">State *</label>
+                            <input type="text" name="state" class="form-control dark-input"
+                                placeholder="e.g. Maharashtra" required>
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="mb-3">
+                        <label class="form-label fw-600 text-white">Price (₹) *</label>
+                        <div class="input-group">
+                            <span class="input-group-text dark-input-addon">₹</span>
+                            <input type="number" name="price" class="form-control dark-input" placeholder="e.g. 8500000"
+                                min="1" required>
+                        </div>
+                        <small class="text-muted">For rent: enter monthly rent amount</small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-600 text-white">Bedrooms *</label>
+                            <select name="bedrooms" class="form-select dark-input" required>
+                                {% for n in "1234567" %}
+                                <option value="{{ n }}">{{ n }} BHK</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-600 text-white">Bathrooms *</label>
+                            <select name="bathrooms" class="form-select dark-input" required>
+                                <option value="1.0">1</option>
+                                <option value="1.5">1.5</option>
+                                <option value="2.0">2</option>
+                                <option value="2.5">2.5</option>
+                                <option value="3.0">3</option>
+                                <option value="4.0">4</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-600 text-white">Area (sqft) *</label>
+                            <input type="number" name="sqft" class="form-control dark-input" placeholder="e.g. 1200"
+                                required>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label class="form-label fw-600 text-white">Description</label>
+                        <textarea name="description" class="form-control dark-input" rows="4"
+                            placeholder="Describe the property — nearby landmarks, amenities, furnishing status..."></textarea>
+                    </div>
+
+                    <!-- Photos -->
+                    <div class="mb-4">
+                        <label class="form-label fw-600 text-white">Photos</label>
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <label class="small text-muted mb-1">Main Photo</label>
+                                <input type="file" name="photo_main" class="form-control dark-input" accept="image/*">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="small text-muted mb-1">Photo 2</label>
+                                <input type="file" name="photo_1" class="form-control dark-input" accept="image/*">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="small text-muted mb-1">Photo 3</label>
+                                <input type="file" name="photo_2" class="form-control dark-input" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning btn-lg fw-700">
+                            <i class="fas fa-paper-plane me-2"></i>Submit Listing for Review
+                        </button>
+                    </div>
+                    <p class="text-center text-muted small mt-3">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Listings are reviewed within 24 hours. You'll see your listing status in your <a
+                            href="/dashboard/" class="text-warning">dashboard</a>.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function setType(type) {
+        document.getElementById('listing_type_input').value = type;
+        document.getElementById('btn-sale').classList.toggle('active', type === 'sale');
+        document.getElementById('btn-rent').classList.toggle('active', type === 'rent');
+    }
+</script>
+{% endblock %}

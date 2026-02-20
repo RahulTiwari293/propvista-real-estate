@@ -11,10 +11,12 @@ class RealtorAdmin(admin.ModelAdmin):
 
 @admin.register(Listing)
 class ListingAdmin(admin.ModelAdmin):
-    list_display = ('title', 'city', 'state', 'price', 'bedrooms', 'is_published', 'realtor', 'list_date')
-    list_filter = ('is_published', 'state', 'city')
+    list_display = ('title', 'listing_type', 'city', 'state', 'price', 'bedrooms',
+                    'is_published', 'posted_by', 'realtor', 'list_date')
+    list_filter = ('is_published', 'listing_type', 'state', 'city')
     list_editable = ('is_published',)
     search_fields = ('title', 'city', 'description')
+    readonly_fields = ('posted_by', 'list_date')
 
 
 @admin.register(Contact)

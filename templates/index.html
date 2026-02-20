@@ -34,9 +34,9 @@
             </div>
         </form>
         <div class="hero-stats mt-4 d-flex justify-content-center gap-4 flex-wrap">
-            <div><span class="stat-num fw-700 fs-3" data-target="2400">0</span>+ Listings</div>
+            <div><span class="fw-700 fs-3 text-warning">{{ for_sale_count }}</span>&nbsp;For Sale</div>
             <div class="stat-div"></div>
-            <div><span class="stat-num fw-700 fs-3" data-target="180">0</span>+ Cities</div>
+            <div><span class="fw-700 fs-3 text-warning">{{ for_rent_count }}</span>&nbsp;For Rent</div>
             <div class="stat-div"></div>
             <div><span class="stat-num fw-700 fs-3" data-target="95">0</span>% Satisfied</div>
         </div>
@@ -58,14 +58,21 @@
                     <div class="prop-img-wrap">
                         {% if l.photo_main %}<img src="{{ l.photo_main.url }}" class="prop-img" alt="{{ l.title }}" />
                         {% else %}<div class="prop-img-ph"><i class="fas fa-home fa-2x opacity-25"></i></div>{% endif %}
-                        <span class="prop-badge">For Sale</span>
+                        <span
+                            class="prop-badge {% if l.listing_type == 'rent' %}badge-rent{% else %}badge-sale{% endif %}">
+                            {% if l.listing_type == 'rent' %}<i class="fas fa-key me-1"></i>For Rent
+                            {% else %}<i class="fas fa-home me-1"></i>For Sale{% endif %}
+                        </span>
                     </div>
                     <div class="prop-body">
-                        <p class="prop-price mb-1">{{ l.price_inr }}</p>
-                        <h6 class="fw-700 mb-1"><a href="{% url 'listing' l.pk %}" class="text-dark">{{ l.title }}</a>
-                        </h6>
+                        <p class="prop-price mb-1">
+                            {{ l.price_inr }}{% if l.listing_type == 'rent' %}<span
+                                class="small text-muted">/mo</span>{% endif %}
+                        </p>
+                        <h6 class="fw-700 mb-1"><a href="{% url 'listing' l.pk %}"
+                                class="text-white text-decoration-none">{{ l.title }}</a></h6>
                         <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1 text-warning"></i>{{
-                            l.address }}, {{ l.city }}</p>
+                            l.city }}, {{ l.state }}</p>
                         <div class="prop-feats">
                             <span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>
                             <span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>
@@ -126,8 +133,11 @@
 <!-- CTA -->
 <section class="cta-section text-center py-5">
     <h2 class="fw-700 text-white mb-3">Ready to find your dream home?</h2>
-    <a href="{% url 'listings' %}" class="btn btn-warning btn-lg px-5 fw-600 me-2">Browse Listings</a>
-    <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-5 fw-600">Create Account</a>
+    <p class="text-white-50 mb-4">Browse listings or post your own property — it's free and easy.</p>
+    <a href="{% url 'listings' %}" class="btn btn-warning btn-lg px-4 fw-600 me-2 mb-2">Browse Listings</a>
+    <a href="/post-listing/" class="btn btn-outline-warning btn-lg px-4 fw-600 me-2 mb-2"><i
+            class="fas fa-plus me-1"></i>Post Property</a>
+    <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4 fw-600 mb-2">Register Free</a>
 </section>
 
 {% endblock %}

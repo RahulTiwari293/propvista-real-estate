@@ -4,116 +4,557 @@
   --dark: #0f1117;
   --dark2: #1a1d27;
   --dark3: #252836;
+  --dark4: #2e3244;
   --text-muted: #8a8f9e;
   --radius: 12px;
+  --sale-color: #22c55e;
+  --rent-color: #6c63ff;
 }
 
-/* ── Base ──────────────────────────────── */
-body { font-family: 'Inter', sans-serif; background: #f8f9fc; color: #1a1d27; }
-.fw-600 { font-weight: 600 !important; }
-.fw-700 { font-weight: 700 !important; }
-.fw-800 { font-weight: 800 !important; }
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--dark);
+  color: #e0e3ef;
+  font-family: 'Inter', sans-serif;
+  padding-top: 70px;
+}
+
+/* ── Utilities ─────────────────────────── */
+.fw-600 {
+  font-weight: 600;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
+.fw-800 {
+  font-weight: 800;
+}
+
+.fw-900 {
+  font-weight: 900;
+}
+
+/* ── Brand Logo ────────────────────────── */
+.brand-logo {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.footer-brand {
+  font-size: 1.6rem;
+  font-weight: 900;
+}
 
 /* ── Navbar ────────────────────────────── */
 #navbar {
-  background: rgba(15,17,23,0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(245,166,35,0.15);
-  transition: background .3s;
+  background: rgba(15, 17, 23, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  transition: all .3s;
 }
-#navbar .navbar-brand { color: #fff !important; font-size: 1.4rem; font-weight: 800; }
-#navbar .nav-link { color: rgba(255,255,255,0.75) !important; transition: color .2s; font-size: .9rem; }
-#navbar .nav-link:hover { color: var(--gold) !important; }
+
+#navbar.scrolled {
+  background: rgba(15, 17, 23, 0.98);
+}
+
+.navbar-brand {
+  text-decoration: none;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, .75) !important;
+  font-weight: 500;
+  padding: .5rem .8rem !important;
+}
+
+.nav-link:hover {
+  color: var(--gold) !important;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, .3);
+}
+
+.navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* ── Alert bar ─────────────────────────── */
+.alert-bar {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  padding: .5rem 1rem;
+}
 
 /* ── Hero ──────────────────────────────── */
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 88vh;
+  background: linear-gradient(135deg, #0d1117 0%, #1a1d27 50%, #0f1117 100%);
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #0f1117 0%, #1a2a4a 50%, #0f1117 100%);
   overflow: hidden;
 }
+
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f5a623' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(245, 166, 35, .12) 0%, transparent 70%);
 }
-.hero-overlay { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(245,166,35,0.08) 0%, transparent 70%); }
-.hero-body { position: relative; z-index: 2; padding: 8rem 0 4rem; }
-.hero-sub { color: var(--gold); font-size: .9rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-.hero-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
-.hero-desc { color: rgba(255,255,255,0.6); font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
-.hero-search { max-width: 800px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; }
-.hero-search .form-control { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; border-radius: 8px; }
-.hero-search .form-control::placeholder { color: rgba(255,255,255,0.4); }
-.hero-search .form-control:focus { box-shadow: 0 0 0 2px rgba(245,166,35,0.25); border-color: var(--gold); background: rgba(255,255,255,0.12); color: #fff; }
-.hero-search select option { background: var(--dark2); }
-.hero-stats { color: rgba(255,255,255,0.7); font-size: .9rem; gap: 2rem !important; }
-.stat-div { width: 1px; background: rgba(255,255,255,0.2); height: 30px; }
+
+.hero-body {
+  position: relative;
+  z-index: 2;
+  padding: 5rem 1rem;
+}
+
+.hero-sub {
+  font-size: .9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.hero-title {
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.hero-desc {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, .65);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.hero-search {
+  max-width: 820px;
+}
+
+.hero-search .form-control,
+.hero-search .form-select {
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .12);
+  color: #fff;
+  border-radius: 10px;
+  padding: .65rem 1rem;
+}
+
+.hero-search .form-control::placeholder {
+  color: rgba(255, 255, 255, .4);
+}
+
+.hero-search .form-control:focus {
+  border-color: var(--gold);
+  outline: none;
+  box-shadow: none;
+  background: rgba(255, 255, 255, .12);
+}
+
+.hero-stats {
+  color: rgba(255, 255, 255, .85);
+  font-size: .95rem;
+}
+
+.stat-div {
+  width: 1px;
+  background: rgba(255, 255, 255, .2);
+}
 
 /* ── Page Header ───────────────────────── */
 .page-header {
-  background: linear-gradient(135deg, var(--dark) 0%, #1a2a4a 100%);
-  padding: 6rem 0 2.5rem;
-  margin-bottom: 0;
+  background: linear-gradient(135deg, #1a1d27, #252836);
+  padding: 3rem 0 2.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
 }
 
-/* ── Property Card ─────────────────────── */
+/* ── Property Cards ────────────────────── */
 .prop-card {
-  background: #fff;
+  background: var(--dark2);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  border: 1px solid rgba(255, 255, 255, .06);
   transition: transform .25s, box-shadow .25s;
 }
-.prop-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
-.prop-img-wrap { position: relative; overflow: hidden; height: 200px; background: #e9ecef; }
-.prop-img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
-.prop-card:hover .prop-img { transform: scale(1.05); }
-.prop-img-ph, .prop-img-ph-lg { background: #e9ecef; display: flex; align-items: center; justify-content: center; }
-.prop-img-ph { height: 200px; }
-.prop-img-ph-lg { height: 380px; border-radius: var(--radius); }
-.prop-badge { position: absolute; top: 10px; left: 10px; background: var(--gold); color: #fff; font-size: .7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-.prop-body { padding: 1.2rem; }
-.prop-price { color: var(--gold); font-size: 1.2rem; font-weight: 800; }
-.prop-feats { display: flex; gap: .75rem; font-size: .8rem; color: var(--text-muted); flex-wrap: wrap; }
-.prop-feats span i { color: var(--gold); margin-right: 3px; }
 
-/* ── Detail Page ───────────────────────── */
-.listing-main-img { height: 380px; object-fit: cover; }
-.detail-item { text-align: center; padding: .75rem; background: #f8f9fc; border-radius: 8px; }
-.detail-item i { display: block; color: var(--gold); font-size: 1.2rem; margin-bottom: .3rem; }
-.detail-item span { font-size: .85rem; font-weight: 600; color: var(--dark); }
+.prop-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .5);
+}
 
-/* ── Realtor Card ──────────────────────── */
-.realtor-card { background: #fff; border-radius: var(--radius); box-shadow: 0 2px 12px rgba(0,0,0,0.07); transition: transform .25s; }
-.realtor-card:hover { transform: translateY(-4px); }
-.realtor-photo { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); }
-.realtor-ph { width: 90px; height: 90px; border-radius: 50%; background: #e9ecef; display: flex; align-items: center; justify-content: center; margin: 0 auto; border: 3px solid var(--gold); }
+.prop-img-wrap {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
 
-/* ── Why Us ────────────────────────────── */
-.why-us { background: linear-gradient(135deg, #0f1117 0%, #1a2a4a 100%); }
-.why-us h2 { color: #fff; }
-.why-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 2rem 1.5rem; transition: background .3s; }
-.why-card:hover { background: rgba(245,166,35,0.08); }
-.why-card h6, .why-card p { color: rgba(255,255,255,0.75); }
-.why-icon { width: 50px; height: 50px; background: rgba(245,166,35,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
-.why-icon i { color: var(--gold); font-size: 1.2rem; }
+.prop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s;
+}
 
-/* ── CTA ───────────────────────────────── */
-.cta-section { background: linear-gradient(135deg, var(--gold) 0%, #e8922e 100%); padding: 5rem 0; }
-.cta-section h2 { color: var(--dark); font-weight: 800; }
-.cta-section a.btn-outline-light { border-color: var(--dark); color: var(--dark); }
-.cta-section a.btn-outline-light:hover { background: var(--dark); color: var(--gold); }
+.prop-card:hover .prop-img {
+  transform: scale(1.06);
+}
 
-/* ── Footer ────────────────────────────── */
-.site-footer { background: var(--dark); }
-.footer-link { color: var(--text-muted); text-decoration: none; display: block; margin-bottom: .4rem; transition: color .2s; }
-.footer-link:hover { color: var(--gold); }
-.social-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: #fff; text-decoration: none; margin-right: 6px; transition: background .2s; }
-.social-icon:hover { background: var(--gold); }
+.prop-img-ph {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark3);
+  color: rgba(255, 255, 255, .15);
+}
 
-/* ── Auth Cards ────────────────────────── */
-.card { border-radius: var(--radius); }
+/* Unified prop-badge base */
+.prop-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: .72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.badge-sale,
+.prop-badge:not(.badge-rent) {
+  background: var(--sale-color);
+  color: #fff;
+}
+
+.badge-rent {
+  background: var(--rent-color);
+  color: #fff;
+}
+
+.prop-body {
+  padding: 1.1rem 1.2rem;
+}
+
+.prop-price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.prop-feats {
+  display: flex;
+  gap: .8rem;
+  font-size: .8rem;
+  color: var(--text-muted);
+}
+
+.prop-feats span {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+
+/* Card image for dashboard listing cards */
+.prop-card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.prop-card-img-placeholder {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark3);
+  color: rgba(255, 255, 255, .15);
+  font-size: 2rem;
+}
+
+/* ── Filter Pills (Listings page) ──────── */
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: .35rem 1rem;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, .07);
+  color: rgba(255, 255, 255, .65);
+  font-size: .85rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, .1);
+  transition: all .2s;
+}
+
+.filter-pill:hover {
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+}
+
+.filter-pill.active {
+  background: var(--gold);
+  color: #000;
+  border-color: var(--gold);
+}
+
+.filter-pill.sale.active {
+  background: var(--sale-color);
+  color: #fff;
+  border-color: var(--sale-color);
+}
+
+.filter-pill.rent.active {
+  background: var(--rent-color);
+  color: #fff;
+  border-color: var(--rent-color);
+}
+
+/* ── Glass Card ────────────────────────── */
+.glass-card {
+  background: var(--dark2);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: var(--radius);
+}
+
+/* ── Dark Form Inputs ──────────────────── */
+.dark-input {
+  background: var(--dark3) !important;
+  border: 1px solid rgba(255, 255, 255, .1) !important;
+  color: #e0e3ef !important;
+  border-radius: 10px;
+}
+
+.dark-input:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 2px rgba(245, 166, 35, .15) !important;
+  background: var(--dark4) !important;
+}
+
+.dark-input::placeholder {
+  color: rgba(255, 255, 255, .35) !important;
+}
+
+.dark-input option {
+  background: var(--dark3);
+}
+
+.input-group-text.dark-input-addon {
+  background: var(--dark3);
+  border: 1px solid rgba(255, 255, 255, .1);
+  color: var(--gold);
+  border-radius: 10px 0 0 10px;
+}
+
+/* ── Listing Type Toggle (Post Property) ─ */
+.listing-type-btn {
+  flex: 1;
+  text-align: center;
+  padding: .8rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  background: var(--dark3);
+  color: rgba(255, 255, 255, .5);
+  border: 2px solid rgba(255, 255, 255, .08);
+  transition: all .2s;
+  user-select: none;
+}
+
+.listing-type-btn.active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(245, 166, 35, .08);
+}
+
+/* ── Dashboard Action Cards ────────────── */
+.action-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--dark2);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, .07);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .4);
+}
+
+.action-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* ── Tabs ──────────────────────────────── */
+.nav-tabs {
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.nav-tabs .nav-link {
+  color: rgba(255, 255, 255, .55);
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 600;
+  padding: .6rem 1.2rem;
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff;
+  border-bottom-color: var(--gold);
+  background: transparent;
+}
+
+.nav-tabs .nav-link:hover {
+  color: rgba(255, 255, 255, .85);
+}
+
+/* ── Empty State ───────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+/* ── Table ─────────────────────────────── */
+.table-dark {
+  --bs-table-bg: var(--dark2);
+  --bs-table-striped-bg: var(--dark3);
+}
+
+.table td,
+.table th {
+  border-color: rgba(255, 255, 255, .06) !important;
+}
+
+/* ── Pagination ─────────────────────────── */
+.pagination .page-link {
+  background: var(--dark2);
+  border-color: rgba(255, 255, 255, .1);
+  color: rgba(255, 255, 255, .7);
+}
+
+.pagination .page-item.active .page-link {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #000;
+}
+
+/* ── Why-us ────────────────────────────── */
+.why-us {
+  background: var(--dark2);
+}
+
+.why-card {
+  background: var(--dark3);
+  border-radius: var(--radius);
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, .05);
+  transition: .25s;
+}
+
+.why-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(245, 166, 35, .3);
+}
+
+.why-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(245, 166, 35, .12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--gold);
+  margin: 0 auto;
+}
+
+/* ── Realtor Cards ──────────────────────── */
+.realtor-card {
+  background: var(--dark2);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, .06);
+  transition: .25s;
+}
+
+.realtor-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+}
+
+.realtor-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+}
+
+.realtor-ph {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--dark3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: rgba(255, 255, 255, .3);
+  margin: 0 auto;
+}
+
+/* ── CTA ────────────────────────────────── */
+.cta-section {
+  background: linear-gradient(135deg, #1a1527, #0f1117);
+  padding: 5rem 0;
+}
+
+/* ── Footer ─────────────────────────────── */
+.footer {
+  background: var(--dark2);
+  padding: 3.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, .05);
+}
+
+.footer-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: block;
+  margin-bottom: .4rem;
+  font-size: .875rem;
+  transition: .2s;
+}
+
+.footer-link:hover {
+  color: var(--gold);
+}
+
+/* ── Auth forms ─────────────────────────── */
+.auth-card {
+  background: var(--dark2);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, .07);
+}
