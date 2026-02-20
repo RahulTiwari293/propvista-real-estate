@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}PropVista | India's Real Estate Marketplace{% endblock %}
+{% block content %}
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-body text-center text-white">
+        <p class="hero-sub mb-2">🏠 India's #1 Real Estate Marketplace</p>
+        <h1 class="hero-title">Find Your <span class="text-warning">Dream</span> Property</h1>
+        <p class="hero-desc mb-4">Browse thousands of listings across India — homes, flats, villas, and more.</p>
+        <form action="{% url 'search' %}" method="GET" class="hero-search mx-auto">
+            <div class="row g-2">
+                <div class="col-md-4"><input type="text" name="keywords" class="form-control"
+                        placeholder="Keywords..." /></div>
+                <div class="col-md-3"><input type="text" name="city" class="form-control" placeholder="City" /></div>
+                <div class="col-md-3">
+                    <select name="state" class="form-control">
+                        <option value="">Any State</option>
+                        <option>Maharashtra</option>
+                        <option>Karnataka</option>
+                        <option>Delhi</option>
+                        <option>Tamil Nadu</option>
+                        <option>Gujarat</option>
+                        <option>Telangana</option>
+                        <option>Kerala</option>
+                        <option>Rajasthan</option>
+                        <option>West Bengal</option>
+                    </select>
+                </div>
+                <div class="col-md-2"><button class="btn btn-warning w-100 fw-600"><i class="fas fa-search"></i>
+                        Go</button></div>
+            </div>
+        </form>
+        <div class="hero-stats mt-4 d-flex justify-content-center gap-4 flex-wrap">
+            <div><span class="stat-num fw-700 fs-3" data-target="2400">0</span>+ Listings</div>
+            <div class="stat-div"></div>
+            <div><span class="stat-num fw-700 fs-3" data-target="180">0</span>+ Cities</div>
+            <div class="stat-div"></div>
+            <div><span class="stat-num fw-700 fs-3" data-target="95">0</span>% Satisfied</div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Listings -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-700 mb-0">Featured <span class="text-warning">Listings</span></h2>
+            <a href="{% url 'listings' %}" class="btn btn-outline-warning btn-sm">View All →</a>
+        </div>
+        {% if listings %}
+        <div class="row g-4">
+            {% for l in listings %}
+            <div class="col-lg-4 col-md-6">
+                <div class="prop-card h-100">
+                    <div class="prop-img-wrap">
+                        {% if l.photo_main %}<img src="{{ l.photo_main.url }}" class="prop-img" alt="{{ l.title }}" />
+                        {% else %}<div class="prop-img-ph"><i class="fas fa-home fa-2x opacity-25"></i></div>{% endif %}
+                        <span class="prop-badge">For Sale</span>
+                    </div>
+                    <div class="prop-body">
+                        <p class="prop-price mb-1">{{ l.price_inr }}</p>
+                        <h6 class="fw-700 mb-1"><a href="{% url 'listing' l.pk %}" class="text-dark">{{ l.title }}</a>
+                        </h6>
+                        <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1 text-warning"></i>{{
+                            l.address }}, {{ l.city }}</p>
+                        <div class="prop-feats">
+                            <span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>
+                            <span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>
+                            <span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted text-center py-5">No listings yet — check back soon!</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Why Us -->
+<section class="why-us py-5">
+    <div class="container text-center">
+        <h2 class="fw-700 mb-4">Why <span class="text-warning">PropVista?</span></h2>
+        <div class="row g-4">
+            {% for icon, title, desc in why_us %}
+            <div class="col-md-3">
+                <div class="why-card">
+                    <div class="why-icon"><i class="{{ icon }}"></i></div>
+                    <h6 class="fw-700 mt-3">{{ title }}</h6>
+                    <p class="small text-muted mb-0">{{ desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Realtors -->
+{% if realtors %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="fw-700 text-center mb-4">Our <span class="text-warning">Realtors</span></h2>
+        <div class="row g-4 justify-content-center">
+            {% for r in realtors %}
+            <div class="col-md-4 text-center">
+                <div class="realtor-card p-4">
+                    {% if r.photo %}<img src="{{ r.photo.url }}" class="realtor-photo mb-3" alt="{{ r.name }}" />
+                    {% else %}<div class="realtor-ph mb-3"><i class="fas fa-user-tie fa-2x"></i></div>{% endif %}
+                    {% if r.is_mvp %}<span class="badge bg-warning text-dark mb-2">⭐ MVP</span>{% endif %}
+                    <h6 class="fw-700">{{ r.name }}</h6>
+                    <p class="small text-muted">{{ r.description|truncatechars:80 }}</p>
+                    <a href="tel:{{ r.phone }}" class="small text-warning">{{ r.phone }}</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section class="cta-section text-center py-5">
+    <h2 class="fw-700 text-white mb-3">Ready to find your dream home?</h2>
+    <a href="{% url 'listings' %}" class="btn btn-warning btn-lg px-5 fw-600 me-2">Browse Listings</a>
+    <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-5 fw-600">Create Account</a>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.querySelectorAll('.stat-num').forEach(el => {
+        const target = +el.dataset.target, step = Math.ceil(target / 60);
+        let n = 0;
+        const t = setInterval(() => { n = Math.min(n + step, target); el.textContent = n.toLocaleString(); if (n >= target) clearInterval(t); }, 20);
+    });
+
+    // Why us cards — rendered by passing context from a template tag would bloat; hardcode inline
+    const whyUs = [
+        ['fas fa-search', 'Smart Search', 'Filter by city, price, bedrooms & more'],
+        ['fas fa-shield-alt', 'Verified', 'Every listing manually reviewed'],
+        ['fas fa-comments', 'Direct Contact', 'Talk to realtors, no middlemen'],
+        ['fas fa-code', 'Open API', 'Consume data via our REST API'],
+    ];
+</script>
+{% endblock %}

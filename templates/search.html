@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Search Properties | PropVista{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h2 class="fw-700 text-white">Search <span class="text-warning">Properties</span></h2></div></div>
+<div class="container py-5">
+  <div class="card border-0 shadow-sm p-4 mb-5">
+    <form action="{% url 'search' %}" method="GET">
+      <div class="row g-2 align-items-end">
+        <div class="col-md-3">
+          <label class="form-label small fw-600">Keywords</label>
+          <input type="text" name="keywords" class="form-control" placeholder="Sea view, gated..." value="{{ values.keywords }}"/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-600">City</label>
+          <input type="text" name="city" class="form-control" placeholder="Mumbai..." value="{{ values.city }}"/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-600">State</label>
+          <select name="state" class="form-control">
+            <option value="">Any State</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-600">Min Bedrooms</label>
+          <select name="bedrooms" class="form-control">
+            <option value="">Any</option>
+            <option value="1">1+</option>
+            <option value="2">2+</option>
+            <option value="3">3+</option>
+            <option value="4">4+</option>
+            <option value="5">5+</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small fw-600">Max Price</label>
+          <select name="price" class="form-control">
+            <option value="">Any Price</option>
+            <option value="1000000">Rs 10 Lakh</option>
+            <option value="5000000">Rs 50 Lakh</option>
+            <option value="10000000">Rs 1 Crore</option>
+            <option value="30000000">Rs 3 Crore</option>
+            <option value="100000000">Rs 10 Crore+</option>
+          </select>
+        </div>
+        <div class="col-md-1">
+          <label class="form-label small fw-600 invisible">Go</label>
+          <button class="btn btn-warning w-100 fw-600 d-block" type="submit"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <p class="text-muted small mb-3">{{ listings|length }} result{{ listings|length|pluralize }} found</p>
+  <div class="row g-4">
+    {% for l in listings %}
+    <div class="col-lg-4 col-md-6">
+      <div class="prop-card h-100">
+        <div class="prop-img-wrap">
+          {% if l.photo_main %}<img src="{{ l.photo_main.url }}" class="prop-img" alt="{{ l.title }}"/>
+          {% else %}<div class="prop-img-ph"><i class="fas fa-home fa-2x opacity-25"></i></div>{% endif %}
+        </div>
+        <div class="prop-body">
+          <p class="prop-price mb-1">{{ l.price_inr }}</p>
+          <h6 class="fw-700 mb-1"><a href="{% url 'listing' l.pk %}" class="text-dark">{{ l.title }}</a></h6>
+          <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1 text-warning"></i>{{ l.city }}, {{ l.state }}</p>
+          <div class="prop-feats">
+            <span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>
+            <span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>
+            <span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-4">
+      <i class="fas fa-search fa-2x text-muted mb-3 d-block"></i>
+      <p class="text-muted">No properties match your search.</p>
+      <a href="{% url 'search' %}" class="btn btn-outline-warning btn-sm">Clear Filters</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

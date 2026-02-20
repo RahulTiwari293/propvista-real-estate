@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}{{ listing.title }} | PropVista{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <h2 class="fw-700 text-white">{{ listing.title }}</h2>
+        <p class="text-warning mb-0"><i class="fas fa-map-marker-alt me-1"></i>{{ listing.address }}, {{ listing.city
+            }}, {{ listing.state }}</p>
+    </div>
+</div>
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- Photos -->
+        <div class="col-lg-8">
+            {% if listing.photo_main %}
+            <div id="photoCarousel" class="carousel slide rounded overflow-hidden shadow mb-3" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="{{ listing.photo_main.url }}"
+                            class="d-block w-100 listing-main-img" alt="Main" /></div>
+                    {% if listing.photo_1 %}<div class="carousel-item"><img src="{{ listing.photo_1.url }}"
+                            class="d-block w-100 listing-main-img" alt="Photo 1" /></div>{% endif %}
+                    {% if listing.photo_2 %}<div class="carousel-item"><img src="{{ listing.photo_2.url }}"
+                            class="d-block w-100 listing-main-img" alt="Photo 2" /></div>{% endif %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel"
+                    data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel"
+                    data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+            </div>
+            {% else %}
+            <div class="prop-img-ph-lg d-flex align-items-center justify-content-center rounded shadow mb-3"><i
+                    class="fas fa-home fa-4x opacity-25"></i></div>
+            {% endif %}
+
+            <!-- Details -->
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h5 class="fw-700 mb-3 text-warning">Property Details</h5>
+                <div class="row g-3">
+                    <div class="col-6 col-md-3 detail-item"><i class="fas fa-tag"></i><span>{{ listing.price_inr
+                            }}</span></div>
+                    <div class="col-6 col-md-3 detail-item"><i class="fas fa-bed"></i><span>{{ listing.bedrooms }}
+                            Beds</span></div>
+                    <div class="col-6 col-md-3 detail-item"><i class="fas fa-bath"></i><span>{{ listing.bathrooms }}
+                            Baths</span></div>
+                    <div class="col-6 col-md-3 detail-item"><i class="fas fa-ruler-combined"></i><span>{{ listing.sqft
+                            }} sqft</span></div>
+                </div>
+            </div>
+            {% if listing.description %}
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-700 mb-2 text-warning">Description</h5>
+                <p class="text-muted mb-0">{{ listing.description }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Realtor -->
+            {% if listing.realtor %}
+            <div class="card border-0 shadow-sm p-4 mb-4 text-center">
+                {% if listing.realtor.photo %}<img src="{{ listing.realtor.photo.url }}" class="realtor-photo mb-2"
+                    alt="{{ listing.realtor.name }}" />{% endif %}
+                <h6 class="fw-700">{{ listing.realtor.name }}</h6>
+                <p class="small text-muted mb-2">Your Agent</p>
+                <a href="tel:{{ listing.realtor.phone }}" class="btn btn-sm btn-outline-warning w-100 mb-1"><i
+                        class="fas fa-phone me-1"></i>{{ listing.realtor.phone }}</a>
+                <a href="mailto:{{ listing.realtor.email }}" class="btn btn-sm btn-outline-secondary w-100"><i
+                        class="fas fa-envelope me-1"></i>Email</a>
+            </div>
+            {% endif %}
+
+            <!-- Inquiry Form -->
+            <div class="card border-0 shadow-sm p-4">
+                <h6 class="fw-700 mb-3 text-warning"><i class="fas fa-paper-plane me-1"></i>Request Info</h6>
+                {% if user.is_authenticated %}
+                <form action="{% url 'contact' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="listing_id" value="{{ listing.pk }}" />
+                    <div class="mb-2"><input type="text" name="name" class="form-control form-control-sm"
+                            placeholder="Your Name" value="{{ user.first_name }} {{ user.last_name }}" required /></div>
+                    <div class="mb-2"><input type="email" name="email" class="form-control form-control-sm"
+                            placeholder="Email" value="{{ user.email }}" required /></div>
+                    <div class="mb-2"><input type="text" name="phone" class="form-control form-control-sm"
+                            placeholder="Phone" /></div>
+                    <div class="mb-2"><textarea name="message" class="form-control form-control-sm" rows="3"
+                            placeholder="Your message...">Hi, I am interested in {{ listing.title }}.</textarea></div>
+                    <button type="submit" class="btn btn-warning w-100 fw-600"><i
+                            class="fas fa-paper-plane me-1"></i>Send Inquiry</button>
+                </form>
+                {% else %}
+                <p class="text-muted small mb-3">Please log in to submit an inquiry.</p>
+                <a href="{% url 'login' %}" class="btn btn-warning w-100 fw-600">Login to Inquire</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

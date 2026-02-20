@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | PropVista{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <h2 class="fw-700 text-white">Welcome, <span class="text-warning">{{ user.first_name }}</span></h2>
+        <p class="text-muted mb-0">Your inquiry dashboard</p>
+    </div>
+</div>
+<div class="container py-5">
+    {% if contacts %}
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Property</th>
+                    <th>Phone</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in contacts %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'listing' c.listing.pk %}" class="text-warning fw-600">{{ c.listing.title }}</a>
+                    </td>
+                    <td>{{ c.phone|default:'—' }}</td>
+                    <td class="text-muted small">{{ c.message|truncatechars:60|default:'No message' }}</td>
+                    <td class="small text-muted">{{ c.contact_date|date:"d M Y" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted">No inquiries yet</h5>
+        <a href="{% url 'listings' %}" class="btn btn-warning mt-2 fw-600">Browse Listings</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

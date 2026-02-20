@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Listings | PropVista{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <h2 class="fw-700 text-white">All <span class="text-warning">Listings</span></h2>
+    </div>
+</div>
+<div class="container py-5">
+    <div class="row g-4">
+        {% for l in listings %}
+        <div class="col-lg-4 col-md-6">
+            <div class="prop-card h-100">
+                <div class="prop-img-wrap">
+                    {% if l.photo_main %}<img src="{{ l.photo_main.url }}" class="prop-img" alt="{{ l.title }}" />
+                    {% else %}<div class="prop-img-ph"><i class="fas fa-home fa-2x opacity-25"></i></div>{% endif %}
+                    <span class="prop-badge">For Sale</span>
+                </div>
+                <div class="prop-body">
+                    <p class="prop-price mb-1">{{ l.price_inr }}</p>
+                    <h6 class="fw-700 mb-1"><a href="{% url 'listing' l.pk %}" class="text-dark">{{ l.title }}</a></h6>
+                    <p class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1 text-warning"></i>{{ l.address
+                        }}, {{ l.city }}, {{ l.state }}</p>
+                    <div class="prop-feats mb-2">
+                        <span><i class="fas fa-bed"></i> {{ l.bedrooms }}</span>
+                        <span><i class="fas fa-bath"></i> {{ l.bathrooms }}</span>
+                        <span><i class="fas fa-expand-arrows-alt"></i> {{ l.sqft }} sqft</span>
+                    </div>
+                    <small class="text-muted">Listed by <strong>{{ l.realtor.name }}</strong></small>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No listings found.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if listings.has_other_pages %}
+    <nav class="mt-5 d-flex justify-content-center">
+        <ul class="pagination">
+            {% if listings.has_previous %}<li class="page-item"><a class="page-link"
+                    href="?page={{ listings.previous_page_number }}">«</a></li>{% endif %}
+            {% for n in listings.paginator.page_range %}
+            <li class="page-item {% if listings.number == n %}active{% endif %}"><a class="page-link"
+                    href="?page={{ n }}">{{ n }}</a></li>
+            {% endfor %}
+            {% if listings.has_next %}<li class="page-item"><a class="page-link"
+                    href="?page={{ listings.next_page_number }}">»</a></li>{% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
